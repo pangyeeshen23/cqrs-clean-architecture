@@ -1,6 +1,9 @@
-﻿using Application.Handler;
+﻿using Application.Users.Commands.RegisterUser;
 using Domain.Entities;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.Dtos;
 
@@ -8,19 +11,27 @@ namespace Presentation.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class UserController
+    public class UserController : ControllerBase
     {
-        IUserHandler _userHandler;
-        public UserController(IUserHandler messageHandler)
+        private readonly IMediator _mediator;
+        public UserController(IMediator mediator)
         {
-            _userHandler = messageHandler;
+            _mediator = mediator;
         }
 
-        [HttpGet]
-        public async Task<List<User>> GetAll()
+        [HttpPost("register")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> Register([FromBody] RegisterUserCommand command)
         {
-            List<User> user = await _userHandler.GetUsers();
-            return user;
+            var response = await _mediator.Send(command);
+            return Ok(new
+            {
+                success = true,
+                message = "Login successful",
+                data = response
+            });
         }
     }
 }

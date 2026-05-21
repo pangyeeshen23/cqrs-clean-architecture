@@ -9,5 +9,10 @@ namespace Infrastructure.Context
             
         }
         public DbSet<User> Users { get; set; }
+        public DbSet<UserProfile> UserProfiles { get; set; }
+        public DbSet<Post> Posts { get; set; }
+        public DbSet<PostTags> PostTags { get; set; }
+        public DbSet<Tag> Tags { get; set; }
+        
     }
 }

@@ -1,0 +1,35 @@
+﻿using FluentValidation;
+using FluentValidation.Validators;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Text;
+
+namespace Application.Users.Commands.RegisterUser
+{
+    public class RegisterCommandValidator : AbstractValidator<RegisterUserCommand>
+    {
+        public RegisterCommandValidator()
+        {
+            RuleFor(x => x.Email)
+                .NotEmpty().WithMessage("Email is required")
+                .EmailAddress(EmailValidationMode.AspNetCoreCompatible).WithMessage("Invalid email format");
+
+            RuleFor(x => x.Name)
+                .NotEmpty().WithMessage("Name is required")
+                .MaximumLength(50).WithMessage("Name must not exceed 50 characters")
+                .Matches(@"^[a-zA-Z]+$").WithMessage("Name must contain only letters");
+
+            RuleFor(x => x.Password)
+                .NotEmpty().WithMessage("Password is required")
+                .MinimumLength(12).WithMessage("Password length must be at least 12 characters")
+                .MaximumLength(20).WithMessage("Password length must not exceed 20 characters")
+                .Matches(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$")
+                .WithMessage("Password must contain at least one lowercase letter, one uppercase letter, one digit, and one special character");
+
+            RuleFor(x => x.ConfirmPassword)
+                .NotEmpty().WithMessage("Confirm password is required")
+                .Equal(x => x.Password).WithMessage("Confirm Passwords do not match with Password");
+        }
+    }
+}
