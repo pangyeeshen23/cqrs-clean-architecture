@@ -2,10 +2,7 @@
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
-/webb/.vs
-/webb/bin/Debug/net10.0
-/webb/obj
-/webb/appsettings.Development.json
+
 /App/.vs
 /App/src/Core/Application/bin/Debug/net10.0
 /App/src/Core/Application/obj/Debug/net10.0
@@ -19,3 +16,7 @@
 /App/src/Web/.vs/App.slnx
 /App/src/Web/bin/Debug/net10.0
 /App/src/Web/obj
+/App/src/Web/appsettings.Development.json
+/App/src/Web/appsettings.json
+/App/src/Web/appsettings.Development.json
+/App/src/Web/appsettings.json
