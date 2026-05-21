@@ -16,24 +16,21 @@ namespace Application.Common.Behaviors
 
         public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
         {
-            if(!_validators.Any())
-            {
+            if (!_validators.Any())
                 return await next();
-            }
 
             var context = new ValidationContext<TRequest>(request);
-            var validationResults = await Task.WhenAll(_validators.Select(v => v.ValidateAsync(context, cancellationToken)));
-            if (validationResults.Any(r => !r.IsValid))
-            {
-                throw new ValidationException(validationResults.Where(r => !r.IsValid).SelectMany(r => r.Errors));
-            }
 
-            var failures = validationResults.SelectMany(r => r.Errors).Where(f => f != null).ToList();
+            var validationResults = await Task.WhenAll(
+                _validators.Select(v => v.ValidateAsync(context, cancellationToken)));
 
-            if(failures.Any())
-            {
+            var failures = validationResults
+                .SelectMany(r => r.Errors)
+                .Where(f => f != null)
+                .ToList();
+
+            if (failures.Any())
                 throw new ValidationException(failures);
-            }
 
             return await next();
         }
