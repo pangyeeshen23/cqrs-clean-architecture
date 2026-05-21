@@ -6,3 +6,16 @@
 /webb/bin/Debug/net10.0
 /webb/obj
 /webb/appsettings.Development.json
+/App/.vs
+/App/src/Core/Application/bin/Debug/net10.0
+/App/src/Core/Application/obj/Debug/net10.0
+/App/src/Core/Application/obj
+/App/src/Core/Domain/bin/Debug/net10.0
+/App/src/Core/Domain/obj
+/App/src/Core/Infrastructure/bin/Debug/net10.0
+/App/src/Core/Infrastructure/obj
+/App/src/Core/Presentation/bin/Debug/net10.0
+/App/src/Core/Presentation/obj
+/App/src/Web/.vs/App.slnx
+/App/src/Web/bin/Debug/net10.0
+/App/src/Web/obj

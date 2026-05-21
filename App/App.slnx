@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Core/Application/Application.csproj" Id="d98b2bd6-65d9-4aa5-9bd5-626f4eedcdfa" />
+    <Project Path="src/Core/Domain/Domain.csproj" Id="005a1ea2-2f88-45d6-8638-3f80a19aca81" />
+    <Project Path="src/Core/Infrastructure/Infrastructure.csproj" />
+    <Project Path="src/Core/Presentation/Presentation.csproj" Id="c8cedd3a-e1d6-46d4-889a-2899feb26f11" />
+  </Folder>
+  <Project Path="src/Web/Web.csproj" />
+</Solution>
