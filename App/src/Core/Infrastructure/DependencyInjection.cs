@@ -49,6 +49,11 @@ namespace Infrastructure
             );
             if(!skipDb)
             {
+                services.AddStackExchangeRedisCache(options =>
+                {
+                    options.Configuration = config["Redis:ConnectionString"];
+                    options.InstanceName = "MyApp:";
+                });
                 services.AddDbContext<MyDbContext>(options =>
                     options.UseSqlServer(config.GetConnectionString("DefaultConnection")));
             }

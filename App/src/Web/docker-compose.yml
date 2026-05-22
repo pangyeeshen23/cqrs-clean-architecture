@@ -6,7 +6,7 @@ services:
       - "1433:1433"
     environment:
       - ACCEPT_EULA=Y
-      - MSSQL_SA_PASSWORD=!root123Qwe123
+      - MSSQL_SA_PASSWORD=!chOjavacr5swi1r
       - MSSQL_PID=Developer
     volumes:
       - sqlserverdata:/var/opt/mssql
@@ -18,7 +18,7 @@ services:
     container_name: redis-cache
     ports:
       - "6379:6379"
-    command: redis-server --requirepass your_password --appendonly yes
+    command: redis-server --requirepass drlbresPewRIpR6! --appendonly yes
     volumes:
       - redis_data:/data
     networks:
