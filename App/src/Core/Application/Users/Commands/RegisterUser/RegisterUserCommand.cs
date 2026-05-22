@@ -3,8 +3,9 @@
 namespace Application.Users.Commands.RegisterUser
 {
     public record RegisterUserCommand(
+        string Username,
         string Email,
-        string Name,
+        string FullName,
         string Password,
         string ConfirmPassword,
         int Age,
@@ -13,9 +14,6 @@ namespace Application.Users.Commands.RegisterUser
     ) : IRequest<RegisterUserResponse>;
 
     public record RegisterUserResponse(
-        Guid UserId,
-        string Email,
-        string Name,
         string Token
     );
 }

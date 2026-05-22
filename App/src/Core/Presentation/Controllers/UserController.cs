@@ -1,4 +1,5 @@
-﻿using Application.Users.Commands.RegisterUser;
+﻿using Application.Users.Commands.LoginUser;
+using Application.Users.Commands.RegisterUser;
 using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -24,6 +25,21 @@ namespace Presentation.Controllers
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Register([FromBody] RegisterUserCommand command)
+        {
+            var response = await _mediator.Send(command);
+            return Ok(new
+            {
+                success = true,
+                message = "Register successful",
+                data = response
+            });
+        }
+
+        [HttpPost("login")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> Login([FromBody] LoginUserCommand command)
         {
             var response = await _mediator.Send(command);
             return Ok(new

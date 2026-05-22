@@ -1,12 +1,10 @@
 ﻿using Domain.Authentication;
 using Domain.Caching;
 using Domain.Entities;
+using Domain.Exceptions.Users;
 using Domain.Repositories;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Application.Users.Commands.RegisterUser
 {
@@ -32,16 +30,12 @@ namespace Application.Users.Commands.RegisterUser
 
         public async Task<RegisterUserResponse> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
         {
-            User? user = await _userRepository.GetByEmailAsync(request.Email);
-            if (user != null)
-            {
-                throw new Exception("User with this email already exists.");
-            }
+            User? user = await _userRepository.GetByAsync(request.Username, request.Email);
+            if (user != null) throw new UserAlreadyExistsException("User with this username/email already exists.");
             user = new User
             {
-                Name = $"{request.Name}",
+                Username = $"{request.Username}",
                 Email = request.Email,
-                PasswordHash = _passwordHasher.HashPassword(null!, request.Password),
                 IsActive = true,
                 Profile = new UserProfile
                 {
@@ -50,11 +44,12 @@ namespace Application.Users.Commands.RegisterUser
                     Address = request.Address
                 }
             };
+            user.PasswordHash = _passwordHasher.HashPassword(user, request.Password);
             var token = _jwtTokenGenerator.GenerateToken(user.Id, user.Email, "User");
             var cacheKey = $"user:{user.Id}";
-            await _cacheService.SetAsync(cacheKey, new { user.Id, user.Email, user.Name }, TimeSpan.FromHours(1), cancellationToken);
+            await _cacheService.SetAsync(cacheKey, new { user.Id, user.Email, user.Username }, TimeSpan.FromHours(1), cancellationToken);
             await _userRepository.AddAsync(user);
-            return new RegisterUserResponse(user.Id, user.Email, user.Name, token);
+            return new RegisterUserResponse(token);
         }
     }
 }

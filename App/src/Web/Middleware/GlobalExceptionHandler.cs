@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using Domain.Exceptions;
+using FluentValidation;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
@@ -25,6 +26,8 @@ namespace Web.Middleware
             };
             (problemDetails.Status, problemDetails.Title, problemDetails.Detail) = exception switch
             {
+                DomainException domainEx =>
+                    ((int)HttpStatusCode.BadRequest, "Bad Request", domainEx.Message),
                 ValidationException validationEx =>
                     ((int)HttpStatusCode.BadRequest, "Validation Error", "One or more validation errors occurred."),
                 UnauthorizedAccessException unauthorizedEx =>
