@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using Microsoft.OpenApi;
 using System;
 using System.Collections.Generic;
@@ -15,22 +16,22 @@ namespace Presentation
         {
             services.AddSwaggerGen(options =>
             {
-                options.SwaggerDoc("v1", new OpenApiInfo
-                {
-                    Title = "My API",
-                    Version = "v1"
-                });
-
-                options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                options.AddSecurityDefinition("bearer", new OpenApiSecurityScheme
                 {
                     Name = "Authorization",
                     Type = SecuritySchemeType.Http,
-                    Scheme = "Bearer",
+                    Scheme = "bearer",
                     BearerFormat = "JWT",
                     In = ParameterLocation.Header,
                     Description = "Enter JWT Token"
                 });
+
+                options.AddSecurityRequirement((document) => new OpenApiSecurityRequirement()
+                {
+                    [new OpenApiSecuritySchemeReference("bearer", document)] = []
+                });
             });
+            
             return services;
         }
     }
