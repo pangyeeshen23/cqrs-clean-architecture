@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <Compile Include="Middleware\GlobalExceptionHandler.cs" />
+    <Compile Include="Middleware\RateLimiterMiddleware.cs" />
     <Compile Include="Program.cs" />
   </ItemGroup>
 
