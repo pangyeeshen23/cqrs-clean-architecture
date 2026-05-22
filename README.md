@@ -3,9 +3,11 @@
 
 Here is a brief description of what this project is and some key notes on how to run the project in your local machines.
 
+## Architecture Notes
 
+The approach for this project had conperated concept of Clean Architecture like Layering of Applicaton, Domain, Infrastructure, Presentation. That promoted a better seperation of concern and it allow ease of Unit Test/Integration Test Implementation. Hence allow the code base to be cleaner, easier to scale and better readablility.
 
-
+In the Application Layer of Clean Architecture, A CQRS design pattern had been added to allow a better seperation of concern of Command and Query.
 
 ## Prerequisition
 
@@ -43,5 +45,19 @@ Step 5 : Run Docker Compose Up To Set Up MSSQL + Redis
 
 Step 6 : Run and Build the project using that IDE
 
-Step 7 : Navigate To /swagger for API Document
+Step 7 : Navigate To /swagger for REST API Document
 
+## Migrations
+
+This section would explain how to add migration.
+
+Step 1 : Navigate To App
+
+```bash
+  cd webby-test/App
+```
+
+Step 2 : Open the project in IDE
+```bash
+  dotnet ef migrations add {ReplaceWithMigrationName} --project src\Core\Infrastructure\Infrastructure.csproj --startup-project src\Web\Web.csproj
+```
