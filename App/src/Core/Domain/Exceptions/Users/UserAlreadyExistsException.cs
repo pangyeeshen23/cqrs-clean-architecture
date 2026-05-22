@@ -6,7 +6,7 @@ namespace Domain.Exceptions.Users
 {
     public class UserAlreadyExistsException : DomainException
     {
-        public UserAlreadyExistsException(string email) : base($"A user with the email '{email}' already exists.")
+        public UserAlreadyExistsException() : base("A user with this usernam/email has been existed")
         {
         }
     }

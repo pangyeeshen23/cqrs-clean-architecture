@@ -31,7 +31,7 @@ namespace Application.Users.Commands.RegisterUser
         public async Task<RegisterUserResponse> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
         {
             User? user = await _userRepository.GetByAsync(request.Username, request.Email);
-            if (user != null) throw new UserAlreadyExistsException("User with this username/email already exists.");
+            if (user != null) throw new UserAlreadyExistsException();
             user = new User
             {
                 Username = $"{request.Username}",

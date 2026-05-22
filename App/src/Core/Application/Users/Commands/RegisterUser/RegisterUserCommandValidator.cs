@@ -23,7 +23,7 @@ namespace Application.Users.Commands.RegisterUser
             RuleFor(x => x.FullName)
                 .NotEmpty().WithMessage("Name is required")
                 .MaximumLength(50).WithMessage("Name must not exceed 50 characters")
-                .Matches(@"^[a-zA-Z]+$").WithMessage("Name must contain only letters");
+                .Matches(@"^[a-zA-Z\s]+$").WithMessage("Name must contain only letters");
 
             RuleFor(x => x.Password)
                 .NotEmpty().WithMessage("Password is required")
