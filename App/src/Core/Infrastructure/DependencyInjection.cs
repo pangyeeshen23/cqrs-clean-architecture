@@ -18,7 +18,7 @@ namespace Infrastructure
     public static class DependencyInjection
     {
 
-        public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration config)
+        public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration config, bool skipDb = false)
         {
             services.AddDistributedMemoryCache();
             services.AddScoped<IUserRepository, UserRepository>();
@@ -47,8 +47,11 @@ namespace Infrastructure
                     };
                 }
             );
-            services.AddDbContext<MyDbContext>(options =>
-                options.UseSqlServer(config.GetConnectionString("DefaultConnection")));
+            if(!skipDb)
+            {
+                services.AddDbContext<MyDbContext>(options =>
+                    options.UseSqlServer(config.GetConnectionString("DefaultConnection")));
+            }
             return services;
         }
     }

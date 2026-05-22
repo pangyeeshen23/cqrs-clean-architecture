@@ -20,3 +20,6 @@
 /App/src/Web/appsettings.json
 /App/src/Web/appsettings.Development.json
 /App/src/Web/appsettings.json
+/App/src/Test/bin/Debug/net10.0
+/App/src/Test/obj/Debug/net10.0
+/App/src/Test/obj
