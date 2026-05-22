@@ -43,9 +43,10 @@ namespace Test.UnitTest.Users
                 _host.Thost.Services.GetRequiredService<IUserRepository>(), 
                 _host.Thost.Services.GetRequiredService<IPasswordHasher<User>>()
             );
-            userSeeder.SeedUser();
+            await userSeeder.SeedUser();
             LoginUserCommand command = new LoginUserCommand("ethanpang", "!root123Qwe123");
             var result = await _mediator.Send(command);
+            Assert.IsNotEmpty(result.Token);
         }
     }
 }
