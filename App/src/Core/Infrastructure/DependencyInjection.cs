@@ -23,6 +23,9 @@ namespace Infrastructure
             services.AddDistributedMemoryCache();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserProfileRepository, UserProfileRepository>();
+            services.AddScoped<ITagRepository, TagRepository>();
+            services.AddScoped<IPostRepository, PostRepository>();
+            services.AddScoped<IPostTagRepository, PostTagRepository>();
             services.AddScoped<ICacheService, CacheService>();
             services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
             services.AddScoped<IPasswordHasher<User>, PasswordHasher>();

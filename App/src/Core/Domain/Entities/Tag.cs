@@ -9,7 +9,11 @@ namespace Domain.Entities
     {
         [Key]
         public Guid Id { get; set; }
-        public string Title { get; set; }
-        public string Description { get; set; }
+        public string Title { get; set; } = default!;
+        public string Description { get; set; } = default!;
+        public string Slug { get; set; } = default!;
+        public User Owner { get; set; } = default!;
+        public Guid OwnerId {  get; set; }
+        public ICollection<PostTags> PostTags { get; set; } = new List<PostTags>();
     }
 }

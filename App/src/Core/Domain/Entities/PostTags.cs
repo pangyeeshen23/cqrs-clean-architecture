@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Domain.Entities
 {
-    public class PostTags
+    public class PostTags : AuditableEntity
     {
         [Key]
         public Guid Id { get; set; }

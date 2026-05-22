@@ -14,6 +14,5 @@ namespace Application.Users.Commands.UpdateUserProfile
 
     public record UpdateUserProfileResponse
     (
-        bool Success
     );
 }

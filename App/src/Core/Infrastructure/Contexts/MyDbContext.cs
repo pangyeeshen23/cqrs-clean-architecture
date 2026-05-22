@@ -20,6 +20,18 @@ namespace Infrastructure.Context
             modelBuilder.Entity<User>()
                 .HasIndex(e => e.Username)
                 .IsUnique();
+
+            modelBuilder.Entity<PostTags>()
+             .HasOne(pt => pt.Post)
+             .WithMany(p => p.PostTags)
+             .HasForeignKey(pt => pt.PostId)
+             .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<PostTags>()
+             .HasOne(pt => pt.Tag)
+             .WithMany(t => t.PostTags)
+             .HasForeignKey(pt => pt.TagId)
+             .OnDelete(DeleteBehavior.NoAction);
         }
 
         public override int SaveChanges()

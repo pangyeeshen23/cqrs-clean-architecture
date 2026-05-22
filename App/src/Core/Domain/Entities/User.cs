@@ -15,5 +15,6 @@ namespace Domain.Entities
         public bool IsActive { get; set; } = true;
         public UserProfile Profile { get; set; }
         public ICollection<Post> Posts { get; set; }
+        public ICollection<Tag> Tags { get; set; }
     }
 }

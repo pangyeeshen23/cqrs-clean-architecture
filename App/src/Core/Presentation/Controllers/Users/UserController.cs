@@ -11,10 +11,10 @@ using Microsoft.AspNetCore.Mvc;
 using Presentation.Dtos;
 using System.Security.Claims;
 
-namespace Presentation.Controllers
+namespace Presentation.Controllers.Users
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("user")]
     public class UserController : ControllerBase
     {
         private readonly IMediator _mediator;
