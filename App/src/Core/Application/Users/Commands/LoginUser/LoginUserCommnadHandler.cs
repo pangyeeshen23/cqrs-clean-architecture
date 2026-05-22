@@ -3,7 +3,7 @@ using Domain.Caching;
 using Domain.Entities;
 using Domain.Exceptions.Users;
 using Domain.Repositories;
-using Domain.Repositories.Model;
+using Domain.Repositories.Model.Users;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 

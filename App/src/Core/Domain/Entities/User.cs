@@ -13,7 +13,6 @@ namespace Domain.Entities
         public string Email { get; set; }  = string.Empty;
         public string PasswordHash { get; set; } = string.Empty;
         public bool IsActive { get; set; } = true;
-
         public UserProfile Profile { get; set; }
         public ICollection<Post> Posts { get; set; }
     }

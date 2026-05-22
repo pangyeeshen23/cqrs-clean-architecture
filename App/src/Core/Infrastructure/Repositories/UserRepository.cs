@@ -1,6 +1,6 @@
 ﻿using Domain.Entities;
 using Domain.Repositories;
-using Domain.Repositories.Model;
+using Domain.Repositories.Model.Users;
 using Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
@@ -38,6 +38,7 @@ namespace Infrastructure.Repositories
             IQueryable<User> query = _dbContext.Users.AsQueryable();
             ApplyUsernameFilter(filter.Username, ref query);
             ApplyEmailFilter(filter.Email, ref query);
+            if (filter.IsIncludeUserProfile) IncludeUserProfile(ref query);
             return query.FirstOrDefaultAsync();
         }
 
@@ -55,6 +56,11 @@ namespace Infrastructure.Repositories
             {
                 query = query.Where(u => u.Email == email);
             }
+        }
+
+        private void IncludeUserProfile(ref IQueryable<User> query)
+        {
+            query = query.Include(e => e.Profile);
         }
 
         public Task<User?> GetByAsync(string username, string email)

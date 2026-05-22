@@ -27,7 +27,7 @@ namespace Infrastructure.Authentication
 
         public string GenerateToken(Guid userId, string email, string role)
         {
-            List<Claim> claim = new List<Claim>
+            List<Claim> claims = new List<Claim>
             {
                 new(ClaimTypes.NameIdentifier, userId.ToString()),
                 new(ClaimTypes.Email, email),
@@ -42,7 +42,7 @@ namespace Infrastructure.Authentication
             var token = new JwtSecurityToken(
                 issuer: _jwtSettings.Issuer,
                 audience: _jwtSettings.Audience,
-                claims: claim,
+                claims: claims,
                 expires: DateTime.UtcNow.AddHours(_jwtSettings.ExpirationInHours),
                 signingCredentials: creds
             );

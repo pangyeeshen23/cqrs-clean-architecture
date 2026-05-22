@@ -13,6 +13,36 @@ namespace Infrastructure.Context
         public DbSet<Post> Posts { get; set; }
         public DbSet<PostTags> PostTags { get; set; }
         public DbSet<Tag> Tags { get; set; }
-        
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<User>()
+                .HasIndex(e => e.Username)
+                .IsUnique();
+        }
+
+        public override int SaveChanges()
+        {
+            var entries = ChangeTracker.Entries<AuditableEntity>();
+            foreach(var entry in entries)
+            {
+                if (entry.State == EntityState.Modified) entry.Entity.UpdateAt = DateTime.UtcNow;
+                if (entry.State == EntityState.Added) entry.Entity.CreatedAt = DateTime.UtcNow;
+            }
+            return base.SaveChanges();
+        }
+
+        public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+        {
+            var entries = ChangeTracker.Entries<AuditableEntity>();
+            foreach (var entry in entries)
+            {
+                if (entry.State == EntityState.Modified) entry.Entity.UpdateAt = DateTime.UtcNow;
+                if (entry.State == EntityState.Added) entry.Entity.CreatedAt = DateTime.UtcNow;
+            }
+            return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
+        }
+
     }
 }
