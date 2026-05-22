@@ -30,6 +30,8 @@ namespace Infrastructure.Repositories
         {
             IQueryable<Post> query = _dbContext.Posts.AsQueryable();
             ApplyIdFitter(filter.Id, ref query);
+            ApplyOwnerIdFitter(filter.OwnerId, ref query);
+            if (filter.IncludeTags) IncludeTags(ref query);
             return await query.FirstOrDefaultAsync();
         }
 
@@ -70,6 +72,12 @@ namespace Infrastructure.Repositories
         public async Task DeleteAsync(Post post)
         {
             _dbContext.Posts.Remove(post);
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task DeleteRangeAsync(List<Post> posts)
+        {
+            _dbContext.Posts.RemoveRange(posts);
             await _dbContext.SaveChangesAsync();
         }
     }

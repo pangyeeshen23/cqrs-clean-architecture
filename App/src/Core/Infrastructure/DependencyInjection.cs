@@ -42,7 +42,7 @@ namespace Infrastructure
                         ValidateIssuerSigningKey = true,
                         ValidIssuer = config["JwtSettings:Issuer"],
                         ValidAudience = config["JwtSettings:Audience"],
-                        IssuerSigningKey = new Microsoft.IdentityModel.Tokens.SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(config["JwtSettings:Secret"])),
+                        IssuerSigningKey = new Microsoft.IdentityModel.Tokens.SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(config["JwtSettings:Secret"]!)),
                         ClockSkew = TimeSpan.Zero
                     };
                 }

@@ -17,7 +17,7 @@ namespace Test.IntegrationTest
 {
     public class BaseIntegrationTest
     {
-        protected TestHost _host;
+        protected TestHost? _host;
 
         [TestInitialize]
         public void Setup()

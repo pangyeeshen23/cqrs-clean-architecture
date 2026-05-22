@@ -1,15 +1,17 @@
-﻿using Application.Tags.Commnads.CreateTag;
-using FluentValidation;
+﻿using FluentValidation;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Application.Posts.Commands.CreatePost
+namespace Application.Posts.Commands.UpdatePost
 {
-    public class CreatePostCommandValidator : AbstractValidator<CreatePostCommand>
+    public class UpdatePostCommandValidator : AbstractValidator<UpdatePostCommand>
     {
-        public CreatePostCommandValidator()
+        public UpdatePostCommandValidator()
         {
+            RuleFor(x => x.Id)
+                .NotEmpty().WithMessage("Id is required")
+                .Must(id => id != Guid.Empty).WithMessage("Post Id must be a valid Guid");
 
             RuleFor(x => x.Title)
                 .NotEmpty().WithMessage("Title is required.")

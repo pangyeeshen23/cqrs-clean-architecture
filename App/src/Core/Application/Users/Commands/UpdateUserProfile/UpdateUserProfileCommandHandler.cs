@@ -1,5 +1,6 @@
 ﻿using Application.Common.Interfaces;
 using Domain.Entities;
+using Domain.Exceptions;
 using Domain.Exceptions.Users;
 using Domain.Repositories;
 using Domain.Repositories.Model.UserProfiles;
@@ -30,7 +31,7 @@ namespace Application.Users.Commands.UpdateUserProfile
         {
             UserProfileFilterModel filter = new UserProfileFilterModel();
             filter.UserId = _currentUser.UserId;
-            UserProfile userProfile = await _userProfileRepository.GetAsync(filter) ?? throw new UserNotFoundException();
+            UserProfile userProfile = await _userProfileRepository.GetAsync(filter) ?? throw new NotFoundException("User");
             if(request.FullName != null) userProfile.FullName = request.FullName;
             if(request.Age != null) userProfile.Age = request.Age.Value;
             if(request.PhoneNumber != null) userProfile.PhoneNumber = request.PhoneNumber;

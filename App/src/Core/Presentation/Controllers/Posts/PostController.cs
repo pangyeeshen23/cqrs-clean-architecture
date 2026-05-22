@@ -1,4 +1,7 @@
-﻿using Application.Tags.Commnads.CreateTag;
+﻿using Application.Posts.Commands.CreatePost;
+using Application.Posts.Commands.DeletePost;
+using Application.Posts.Commands.UpdatePost;
+using Application.Posts.Queries.GetAllPosts;
 using Application.Tags.Commnads.DeleteTag;
 using Application.Tags.Commnads.UpdateTag;
 using Application.Tags.Queries.GetAllTags;
@@ -6,9 +9,6 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Presentation.Controllers.Tags
 {
@@ -29,7 +29,7 @@ namespace Presentation.Controllers.Tags
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> List()
         {
-            GetAllTagQuery query = new GetAllTagQuery();
+            GetAllPostQuery query = new GetAllPostQuery();
             var result = await _mediator.Send(query);
             return Ok(new
             {
@@ -44,44 +44,44 @@ namespace Presentation.Controllers.Tags
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Create([FromBody] CreateTagCommand command)
+        public async Task<IActionResult> Create([FromBody] CreatePostCommand command)
         {
             var result = await _mediator.Send(command);
             return Ok(new
             {
                 sucess = true,
-                message = "Tag created successfully",
+                message = "Post created successfully",
                 data = result
             });
         }
 
         [Authorize]
-        [HttpPatch("update")]
+        [HttpPut("update")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Update([FromBody] UpdateTagCommand command)
+        public async Task<IActionResult> Update([FromBody] UpdatePostCommand command)
         {
             await _mediator.Send(command);
             return Ok(new
             {
                 sucess = true,
-                message = "Tag updated successfully",
+                message = "Post updated successfully",
             });
         }
 
         [Authorize]
-        [HttpPatch("delete")]
+        [HttpDelete("delete")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Delete([FromBody] DeleteTagCommand command)
+        public async Task<IActionResult> Delete([FromBody] DeletePostCommand command)
         {
             await _mediator.Send(command);
             return Ok(new
             {
                 sucess = true,
-                message = "Tag updated successfully",
+                message = "Post delete successfully",
             });
         }
     }

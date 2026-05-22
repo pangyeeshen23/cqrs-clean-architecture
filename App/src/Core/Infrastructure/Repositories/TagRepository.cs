@@ -23,11 +23,11 @@ namespace Infrastructure.Repositories
             _dbContext = dbContext;
         }
 
-        public async Task<List<Tag>> GetAllByAync(TagFilterModel filter)
+        public async Task<List<Tag>> GetAllByAync(TagFilterModel? filter = null)
         {
             IQueryable<Tag> query = _dbContext.Tags.AsQueryable();
-            ApplyIdFitter(filter.Id, ref query);
-            ApplyOwnerIdFitter(filter.OwnerId, ref query);
+            ApplyIdFitter(filter?.Id, ref query);
+            ApplyOwnerIdFitter(filter?.OwnerId, ref query);
             return await query.ToListAsync();
         }
 

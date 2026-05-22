@@ -1,7 +1,7 @@
 ﻿using Application.Common.Interfaces;
 using Application.Tags.Commnads.CreateTag;
 using Domain.Entities;
-using Domain.Exceptions.Tags;
+using Domain.Exceptions;
 using Domain.Repositories;
 using Domain.Repositories.Model.Tags;
 using MediatR;
@@ -29,7 +29,7 @@ namespace Application.Tags.Commnads.DeleteTag
             TagFilterModel filter = new TagFilterModel();
             filter.Id = request.Id;
             filter.OwnerId = _currentUserService.UserId;
-            Tag tag = await _tagRepository.GetAsync(filter) ?? throw new TagNotFoundException();
+            Tag tag = await _tagRepository.GetAsync(filter) ?? throw new NotFoundException("Tag");
             await _tagRepository.DeleteAsync(tag);
         }
     }

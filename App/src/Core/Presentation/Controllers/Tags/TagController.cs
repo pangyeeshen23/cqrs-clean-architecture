@@ -56,7 +56,7 @@ namespace Presentation.Controllers.Tags
         }
 
         [Authorize]
-        [HttpPatch("update")]
+        [HttpPut("update")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
@@ -71,7 +71,7 @@ namespace Presentation.Controllers.Tags
         }
 
         [Authorize]
-        [HttpPatch("delete")]
+        [HttpDelete("delete")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]

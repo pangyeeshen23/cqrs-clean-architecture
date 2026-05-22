@@ -3,6 +3,7 @@ using Domain.Repositories;
 using Domain.Repositories.Model.PostTags;
 using Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 
 namespace Infrastructure.Repositories
 {
@@ -33,15 +34,15 @@ namespace Infrastructure.Repositories
 
         }
 
-        public async Task CreateAsync(Post post)
+        public async Task CreateRangeAsync(List<PostTags> postTags)
         {
-            await _dbContext.Posts.AddAsync(post);
+            await _dbContext.PostTags.AddRangeAsync(postTags);
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task DeleteAsync(Post post)
+        public async Task DeleteRangeAsync(List<PostTags> postTags)
         {
-            _dbContext.Posts.Remove(post);
+            _dbContext.PostTags.RemoveRange(postTags);
             await _dbContext.SaveChangesAsync();
         }
     }

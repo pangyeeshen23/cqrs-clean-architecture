@@ -22,9 +22,7 @@ namespace Application.Tags.Queries.GetAllTags
 
         public async Task<List<GetAllTagResponse>> Handle(GetAllTagQuery request, CancellationToken cancellationToken)
         {
-            TagFilterModel filter = new TagFilterModel();
-            filter.OwnerId = _currentUserService.UserId;
-            List<Tag> tags = await _tagRepository.GetAllByAync(filter);
+            List<Tag> tags = await _tagRepository.GetAllByAync();
             var sanitizer = new HtmlSanitizer();
             List<GetAllTagResponse> response = tags.Select(
                 t => new GetAllTagResponse(t.Id, sanitizer.Sanitize(t.Title), sanitizer.Sanitize(t.Description), sanitizer.Sanitize(t.Slug))

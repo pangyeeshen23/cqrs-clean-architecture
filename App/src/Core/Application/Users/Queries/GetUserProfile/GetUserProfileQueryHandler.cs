@@ -1,4 +1,5 @@
 ﻿using Domain.Entities;
+using Domain.Exceptions;
 using Domain.Exceptions.Users;
 using Domain.Repositories;
 using Domain.Repositories.Model.Users;
@@ -22,7 +23,7 @@ namespace Application.Users.Queries.GetUserProfile
             UserFilterModel filter = new UserFilterModel();
             filter.Id = request.UserId;
             filter.IsIncludeUserProfile = true;
-            User user = await _userRepository.GetByAsync(filter) ?? throw new UserNotFoundException();
+            User user = await _userRepository.GetByAsync(filter) ?? throw new NotFoundException("User");
             return new GetUserProfileResponse(user.Username, user.Email, user.Profile.FullName, user.Profile.Age, user.Profile.PhoneNumber, user.Profile.Address);
         }
     }

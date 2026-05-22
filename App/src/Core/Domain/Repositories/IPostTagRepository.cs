@@ -10,8 +10,7 @@ namespace Domain.Repositories
     public interface IPostTagRepository
     {
         public Task<List<PostTags>> GetAllByAync(PostTagsFilterModel filter);
-        public Task CreateAsync(Post post);
-        public Task DeleteAsync(Post post);
-
+        public Task CreateRangeAsync(List<PostTags> postTags);
+        public Task DeleteRangeAsync(List<PostTags> postTags);
     }
 }
