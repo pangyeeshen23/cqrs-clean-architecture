@@ -25,12 +25,13 @@ services:
       - MSSQL_PID=Developer
     volumes:
       - sqlserverdata:/var/opt/mssql
-    healthcheck:
-      test : ["CMD-SHELL", "/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P !chOjavacr5swi1r -Q 'SELECT 1"]
-      interval: 10s
-      retries: 10
     networks:
       - webapp-network
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P !chOjavacr5swi1r -Q 'SELECT 1'"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
 
   redis:
     image: redis:7.4-alpine
