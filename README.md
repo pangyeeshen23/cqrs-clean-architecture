@@ -168,3 +168,5 @@ Step 7 : Sign Into you postman account If you haven't
 Step 8 : Find and Click Import in Collection Tab
 
 Step 9 : Paste the url into the input field 
+
+Notes : further configuration or set up will be required but it does list out all the endpoints available
