@@ -33,7 +33,7 @@ namespace Application.Users.Commands.LoginUser
             UserFilterModel filterModel = new UserFilterModel();
             filterModel.Username = request.Username;
             User? user = await _userRepository.GetByAsync(filterModel);
-            if(user == null) throw new NotFoundException("User");
+            if (user == null) throw new NotFoundException("User");
             var result = _passwordHasher.VerifyHashedPassword(user, user.PasswordHash, request.Password);
             if (result == PasswordVerificationResult.Failed) throw new InvalidCredentialException();
             var token = _jwtTokenGenerator.GenerateToken(user.Id, user.Email, "User");

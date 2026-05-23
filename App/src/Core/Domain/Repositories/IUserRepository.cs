@@ -1,10 +1,10 @@
-﻿using Domain.Entities;
-using Domain.Repositories.Model.Users;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Domain.Entities;
+using Domain.Repositories.Model.Users;
 
 namespace Domain.Repositories
 {

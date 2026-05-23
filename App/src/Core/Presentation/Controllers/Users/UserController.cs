@@ -1,4 +1,5 @@
-﻿using Application.Users.Commands.LoginUser;
+﻿using System.Security.Claims;
+using Application.Users.Commands.LoginUser;
 using Application.Users.Commands.RegisterUser;
 using Application.Users.Commands.UpdateUserProfile;
 using Application.Users.Queries.GetUserProfile;
@@ -8,7 +9,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 
 namespace Presentation.Controllers.Users
 {

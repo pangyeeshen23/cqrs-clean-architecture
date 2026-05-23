@@ -1,11 +1,11 @@
-﻿using Domain.Entities;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using Domain.Entities;
 using Domain.Repositories;
 using Domain.Repositories.Model.UserProfiles;
 using Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Infrastructure.Repositories
 {

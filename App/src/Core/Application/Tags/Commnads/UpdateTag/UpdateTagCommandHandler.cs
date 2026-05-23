@@ -1,4 +1,7 @@
-﻿using Application.Common.Interfaces;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using Application.Common.Interfaces;
 using Application.Common.Redis;
 using Domain.Caching;
 using Domain.Entities;
@@ -6,9 +9,6 @@ using Domain.Exceptions;
 using Domain.Repositories;
 using Domain.Repositories.Model.Tags;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Application.Tags.Commnads.UpdateTag
 {
@@ -35,7 +35,7 @@ namespace Application.Tags.Commnads.UpdateTag
             filter.Id = request.Id;
             filter.OwnerId = _currentUserService.UserId;
             Tag tag = await _tagRepository.GetAsync(filter) ?? throw new NotFoundException("Tag");
-            if(!string.IsNullOrEmpty(request.Title))
+            if (!string.IsNullOrEmpty(request.Title))
             {
                 tag.Title = request.Title;
                 tag.Slug = request.Title.ToLower().Trim().Replace(" ", "-");

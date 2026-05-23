@@ -1,8 +1,8 @@
-﻿using Domain.Exceptions;
+﻿using System.Net;
+using Domain.Exceptions;
 using FluentValidation;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using System.Net;
 
 namespace Web.Middleware
 {

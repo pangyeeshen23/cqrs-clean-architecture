@@ -13,7 +13,7 @@ namespace Domain.Entities
         public string Description { get; set; } = default!;
         public string Slug { get; set; } = default!;
         public User Owner { get; set; } = default!;
-        public Guid OwnerId {  get; set; }
+        public Guid OwnerId { get; set; }
         public ICollection<PostTags> PostTags { get; set; } = new List<PostTags>();
     }
 }

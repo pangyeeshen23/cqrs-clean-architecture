@@ -3,8 +3,8 @@ using Domain.Repositories;
 using Domain.Repositories.Model.Users;
 using Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 using static System.Net.WebRequestMethods;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Infrastructure.Repositories
 {

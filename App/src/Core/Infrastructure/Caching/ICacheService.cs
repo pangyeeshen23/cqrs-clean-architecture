@@ -1,10 +1,10 @@
-﻿using Domain.Caching;
-using Microsoft.Extensions.Caching.Distributed;
-using Microsoft.Extensions.Logging;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.Json;
+using Domain.Caching;
+using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Logging;
 
 namespace Infrastructure.Caching
 {
@@ -46,7 +46,7 @@ namespace Infrastructure.Caching
             try
             {
                 DistributedCacheEntryOptions options = new DistributedCacheEntryOptions();
-                if(expiration.HasValue)
+                if (expiration.HasValue)
                 {
                     options.SetSlidingExpiration(expiration.Value);
                 }

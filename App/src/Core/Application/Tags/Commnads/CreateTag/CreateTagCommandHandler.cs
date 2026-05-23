@@ -1,4 +1,7 @@
-﻿using AngleSharp.Io;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using AngleSharp.Io;
 using Application.Common.Interfaces;
 using Application.Common.Redis;
 using Domain.Caching;
@@ -6,9 +9,6 @@ using Domain.Entities;
 using Domain.Repositories;
 using Domain.Repositories.Model.Tags;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Application.Tags.Commnads.CreateTag
 {

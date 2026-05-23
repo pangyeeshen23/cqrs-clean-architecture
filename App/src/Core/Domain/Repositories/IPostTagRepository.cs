@@ -1,9 +1,9 @@
-﻿using Domain.Entities;
-using Domain.Repositories.Model.Posts;
-using Domain.Repositories.Model.PostTags;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Domain.Entities;
+using Domain.Repositories.Model.Posts;
+using Domain.Repositories.Model.PostTags;
 
 namespace Domain.Repositories
 {

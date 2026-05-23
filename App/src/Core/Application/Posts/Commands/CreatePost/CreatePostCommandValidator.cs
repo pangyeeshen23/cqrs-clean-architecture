@@ -1,8 +1,8 @@
-﻿using Application.Tags.Commnads.CreateTag;
-using FluentValidation;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Application.Tags.Commnads.CreateTag;
+using FluentValidation;
 
 namespace Application.Posts.Commands.CreatePost
 {

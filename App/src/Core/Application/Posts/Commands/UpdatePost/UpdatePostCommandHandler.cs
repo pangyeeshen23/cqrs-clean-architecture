@@ -1,4 +1,7 @@
-﻿using AngleSharp.Common;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using AngleSharp.Common;
 using Application.Common.Interfaces;
 using Application.Common.Redis;
 using Domain.Caching;
@@ -7,9 +10,6 @@ using Domain.Exceptions;
 using Domain.Repositories;
 using Domain.Repositories.Model.Posts;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Application.Posts.Commands.UpdatePost
 {

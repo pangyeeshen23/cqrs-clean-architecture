@@ -13,7 +13,7 @@ namespace Domain.Entities
         public Post Post { get; set; } = default!;
         public Guid PostId { get; set; }
 
-        public Tag Tag {  get; set; } = default!;
+        public Tag Tag { get; set; } = default!;
         public Guid TagId { get; set; }
     }
 }

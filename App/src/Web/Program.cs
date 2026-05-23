@@ -1,3 +1,4 @@
+using System.IdentityModel.Tokens.Jwt;
 using AngleSharp;
 using Application;
 using Infrastructure;
@@ -5,7 +6,6 @@ using Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 using Presentation;
 using Serilog;
-using System.IdentityModel.Tokens.Jwt;
 using Web.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);

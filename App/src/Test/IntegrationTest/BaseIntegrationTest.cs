@@ -1,4 +1,7 @@
-﻿using Application;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using Application;
 using Domain.Authentication;
 using Domain.Caching;
 using Domain.Repositories;
@@ -8,9 +11,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Test.Core;
 
 namespace Test.IntegrationTest

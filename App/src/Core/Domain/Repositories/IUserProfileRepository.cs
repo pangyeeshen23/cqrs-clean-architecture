@@ -1,8 +1,8 @@
-﻿using Domain.Entities;
-using Domain.Repositories.Model.UserProfiles;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Domain.Entities;
+using Domain.Repositories.Model.UserProfiles;
 
 namespace Domain.Repositories
 {

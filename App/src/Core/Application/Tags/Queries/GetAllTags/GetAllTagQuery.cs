@@ -1,8 +1,8 @@
-﻿using Application.Tags.Commnads.CreateTag;
-using MediatR;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Application.Tags.Commnads.CreateTag;
+using MediatR;
 
 namespace Application.Tags.Queries.GetAllTags
 {

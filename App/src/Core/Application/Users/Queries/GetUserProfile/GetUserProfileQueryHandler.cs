@@ -1,10 +1,10 @@
-﻿using Domain.Entities;
+﻿using System.Security.Claims;
+using Domain.Entities;
 using Domain.Exceptions;
 using Domain.Exceptions.Users;
 using Domain.Repositories;
 using Domain.Repositories.Model.Users;
 using MediatR;
-using System.Security.Claims;
 
 namespace Application.Users.Queries.GetUserProfile
 {

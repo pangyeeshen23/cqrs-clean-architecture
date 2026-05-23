@@ -1,9 +1,9 @@
-﻿using FluentValidation;
-using FluentValidation.Validators;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Text;
+using FluentValidation;
+using FluentValidation.Validators;
 
 namespace Application.Users.Commands.RegisterUser
 {

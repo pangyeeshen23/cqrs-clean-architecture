@@ -41,7 +41,7 @@ namespace Test.UnitTest.Users
         public async Task UserLogin_Should_Success()
         {
             UserSeeder userSeeder = new UserSeeder(
-                _host!.Thost.Services.GetRequiredService<IUserRepository>(), 
+                _host!.Thost.Services.GetRequiredService<IUserRepository>(),
                 _host.Thost.Services.GetRequiredService<IPasswordHasher<User>>()
             );
             await userSeeder.SeedUser();

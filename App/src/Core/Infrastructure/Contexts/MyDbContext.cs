@@ -6,7 +6,7 @@ namespace Infrastructure.Context
     {
         public MyDbContext(DbContextOptions<MyDbContext> options) : base(options)
         {
-            
+
         }
         public DbSet<User> Users { get; set; }
         public DbSet<UserProfile> UserProfiles { get; set; }
@@ -37,7 +37,7 @@ namespace Infrastructure.Context
         public override int SaveChanges()
         {
             var entries = ChangeTracker.Entries<AuditableEntity>();
-            foreach(var entry in entries)
+            foreach (var entry in entries)
             {
                 if (entry.State == EntityState.Modified) entry.Entity.UpdateAt = DateTime.UtcNow;
                 if (entry.State == EntityState.Added) entry.Entity.CreatedAt = DateTime.UtcNow;

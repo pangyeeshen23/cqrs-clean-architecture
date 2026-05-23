@@ -36,11 +36,11 @@ namespace Application.Posts.Queries.GetAllPosts
             filter.IncludeTags = true;
             List<Post> posts = await _postRepository.GetAllByAync(filter);
             var sanitizer = new HtmlSanitizer();
-            List<GetAllPostResponse> response = posts.Select(e => 
+            List<GetAllPostResponse> response = posts.Select(e =>
                 new GetAllPostResponse(
-                    e.Id, 
-                    sanitizer.Sanitize(e.Title), 
-                    sanitizer.Sanitize(e.Content), 
+                    e.Id,
+                    sanitizer.Sanitize(e.Title),
+                    sanitizer.Sanitize(e.Content),
                     e.PostTags.Select(e => new TagResponse(e.Tag.Id, sanitizer.Sanitize(e.Tag.Title)))
                 )
             ).ToList();
