@@ -48,6 +48,9 @@ Step 6 : Run and Build the project using that IDE
 
 Step 7 : Navigate To /swagger for REST API Document
 
+Notes : Remember To Run dotnet format on \App to format the project before pushing changes to main
+
+
 ## Migrations
 
 This section would explain how to add migration.
