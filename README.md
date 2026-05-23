@@ -61,3 +61,45 @@ Step 2 : Open the project in IDE
 ```bash
   dotnet ef migrations add {ReplaceWithMigrationName} --project src\Core\Infrastructure\Infrastructure.csproj --startup-project src\Web\Web.csproj
 ```
+
+## Error Handling Strategry
+
+A Global Exception Handler had been added to produce a well formatted error message.
+
+The json response format would consist of 
+1. title - title of the exception, etc : Bad Request
+2. status - status code, etc : 400 
+3. detail - message that explain the exception : One or more validation errors occurred.
+4. instance - the instance called : POST /user/register
+5. errors - an array that display a detail look of the exception (only for validation exception)
+
+An Example of 'errors'
+```bash
+  "errors": [
+        {
+            "propertyName": "Username",
+            "errorMessage": "Username is required",
+            "attemptedValue": ""
+        }
+    ]
+```
+
+## Database Indexing
+
+As of now, Indexing that are added are on the foreign key of every table to allow faster search and join operation. Which is added automatically.
+
+In the User table, an index had been added to the Username column because the login commnad had used where search for that.
+
+## Logging & Monitoring
+
+
+
+## Api Rate Limiting
+A global rate limiting has been added to all the controller in the project.
+
+The strategy for this rate limiting introduce a pool of 10 request per IP per seconds on each API.
+This means that each IP would be able to call to an API for 10 times per second.
+There is a queue limit of 5 as well.
+
+So it would be 10 immediate API calls and 5 in queue.
+
