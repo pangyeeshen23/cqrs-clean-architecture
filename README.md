@@ -148,3 +148,23 @@ Step 2 : Run the command below
    docker built -t app .
 ```
 
+## Postman/Insomnia Collection
+
+To export a postman collection
+
+Step 1 : Run The Project In Development Mode
+
+Step 2 : Navigate To Swagger
+```bash
+   {base_url}/swagger/index.html
+```
+
+Step 5 : Copy the {base_url}/swagger/v1/swagger.json link in the page
+
+Step 6 : Open Postman
+
+Step 7 : Sign Into you postman account If you haven't 
+
+Step 8 : Find and Click Import in Collection Tab
+
+Step 9 : Paste the url into the input field 
