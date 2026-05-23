@@ -1,5 +1,7 @@
 ﻿using Application.Common.Interfaces;
 using Application.Tags.Commnads.DeleteTag;
+using Application.Tags.Common.Redis;
+using Domain.Caching;
 using Domain.Entities;
 using Domain.Exceptions;
 using Domain.Repositories;
@@ -15,13 +17,17 @@ namespace Application.Tags.Commnads.UpdateTag
     {
         private readonly ITagRepository _tagRepository;
         private readonly ICurrentUserService _currentUserService;
+        private readonly ICacheService _cacheService;
+
         public UpdateTagCommandHandler(
             ITagRepository tagRepository,
-            ICurrentUserService currentUserService
+            ICurrentUserService currentUserService,
+            ICacheService cacheService
         )
         {
             _tagRepository = tagRepository;
             _currentUserService = currentUserService;
+            _cacheService = cacheService;
         }
 
         public async Task Handle(UpdateTagCommand request, CancellationToken cancellationToken)
@@ -36,6 +42,7 @@ namespace Application.Tags.Commnads.UpdateTag
                 tag.Slug = request.Title.ToLower().Trim().Replace(" ", "-");
             }
             tag.Description = request.Description;
+            await _cacheService.RemoveAsync($"{RedisKeys.List}", cancellationToken);
             await _tagRepository.UpdateAsync(tag);
         }
     }

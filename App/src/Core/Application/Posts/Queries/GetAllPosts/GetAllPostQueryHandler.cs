@@ -1,13 +1,11 @@
 ﻿using Application.Common.Interfaces;
-using Application.Posts.Commands.CreatePost;
+using Application.Posts.Common.Redis;
+using Domain.Caching;
 using Domain.Entities;
 using Domain.Repositories;
 using Domain.Repositories.Model.Posts;
 using Ganss.Xss;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Application.Posts.Queries.GetAllPosts
 {
@@ -15,18 +13,23 @@ namespace Application.Posts.Queries.GetAllPosts
     {
         private readonly IPostRepository _postRepository;
         private readonly ICurrentUserService _currentUserService;
+        private readonly ICacheService _cacheService;
 
         public GetAllPostQueryHandler(
             IPostRepository postRepository,
-            ICurrentUserService currentUserService
+            ICurrentUserService currentUserService,
+            ICacheService cacheService
         )
         {
             _postRepository = postRepository;
             _currentUserService = currentUserService;
+            _cacheService = cacheService;
         }
 
         public async Task<List<GetAllPostResponse>> Handle(GetAllPostQuery request, CancellationToken cancellationToken)
         {
+            List<GetAllPostResponse>? cached = await _cacheService.GetAsync<List<GetAllPostResponse>>($"{RedisKeys.List}", cancellationToken);
+            if (cached != null) return cached;
             PostFilterModel filter = new PostFilterModel();
             filter.OwnerId = _currentUserService.UserId;
             filter.IncludeTags = true;
@@ -39,7 +42,8 @@ namespace Application.Posts.Queries.GetAllPosts
                     sanitizer.Sanitize(e.Content), 
                     e.PostTags.Select(e => new TagResponse(e.Tag.Id, sanitizer.Sanitize(e.Tag.Title)))
                 )
-           ).ToList();
+            ).ToList();
+            await _cacheService.SetAsync($"{RedisKeys.List}", response, TimeSpan.FromHours(1), cancellationToken);
             return response;
         }
     }

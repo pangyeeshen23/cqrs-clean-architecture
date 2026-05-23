@@ -1,4 +1,6 @@
 ﻿using Application.Common.Interfaces;
+using Application.Posts.Common.Redis;
+using Domain.Caching;
 using Domain.Entities;
 using Domain.Exceptions;
 using Domain.Repositories;
@@ -14,13 +16,17 @@ namespace Application.Posts.Commands.DeletePost
     {
         private readonly IPostRepository _postRepository;
         private readonly ICurrentUserService _currentUserService;
+        private readonly ICacheService _cacheService;
+
         public DeletePostCommandHandler(
             IPostRepository postRepository,
-            ICurrentUserService currentUserService
+            ICurrentUserService currentUserService,
+            ICacheService cacheService
         )
         {
             _postRepository = postRepository;
             _currentUserService = currentUserService;
+            _cacheService = cacheService;
         }
 
         public async Task Handle(DeletePostCommand request, CancellationToken cancellationToken)
@@ -30,6 +36,7 @@ namespace Application.Posts.Commands.DeletePost
             filter.OwnerId = _currentUserService.UserId;
             Post post = await _postRepository.GetAsync(filter) ?? throw new NotFoundException("Post");
             await _postRepository.DeleteAsync(post);
+            await _cacheService.RemoveAsync($"{RedisKeys.List}", cancellationToken);
         }
     }
 }

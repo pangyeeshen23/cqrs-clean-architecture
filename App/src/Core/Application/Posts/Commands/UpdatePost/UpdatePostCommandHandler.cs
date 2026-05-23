@@ -1,5 +1,7 @@
 ﻿using AngleSharp.Common;
 using Application.Common.Interfaces;
+using Application.Posts.Common.Redis;
+using Domain.Caching;
 using Domain.Entities;
 using Domain.Exceptions;
 using Domain.Repositories;
@@ -16,15 +18,19 @@ namespace Application.Posts.Commands.UpdatePost
         private readonly IPostRepository _postRepository;
         private readonly IPostTagRepository _postTagRepository;
         private readonly ICurrentUserService _currentUserService;
+        private readonly ICacheService _cacheService;
+
         public UpdatePostCommandHandler(
             IPostRepository postRepository,
             ICurrentUserService currentUserService,
-            IPostTagRepository postTagRepository
+            IPostTagRepository postTagRepository,
+            ICacheService cacheService
         )
         {
             _postRepository = postRepository;
             _currentUserService = currentUserService;
             _postTagRepository = postTagRepository;
+            _cacheService = cacheService;
         }
 
 
@@ -44,6 +50,7 @@ namespace Application.Posts.Commands.UpdatePost
             List<PostTags> addedTags = addedTagIds.Select(e => new PostTags() { PostId = post.Id, TagId = e }).ToList();
             await _postTagRepository.DeleteRangeAsync(removeTagIds);
             await _postTagRepository.CreateRangeAsync(addedTags);
+            await _cacheService.RemoveAsync($"{RedisKeys.List}", cancellationToken);
             return new UpdatePostResponse(post.Id);
         }
     }
