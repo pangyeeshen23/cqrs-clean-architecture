@@ -37,8 +37,6 @@ namespace Application.Users.Commands.LoginUser
             var result = _passwordHasher.VerifyHashedPassword(user, user.PasswordHash, request.Password);
             if (result == PasswordVerificationResult.Failed) throw new InvalidCredentialException();
             var token = _jwtTokenGenerator.GenerateToken(user.Id, user.Email, "User");
-            var cacheKey = $"user:{user.Id}";
-            await _cacheService.SetAsync(cacheKey, new { user.Id, user.Email, user.Username }, TimeSpan.FromHours(1), cancellationToken);
             return new LoginUserResponse(token);
         }
     }

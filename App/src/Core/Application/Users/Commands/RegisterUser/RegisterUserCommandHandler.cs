@@ -48,8 +48,6 @@ namespace Application.Users.Commands.RegisterUser
             user.PasswordHash = _passwordHasher.HashPassword(user, request.Password);
             await _userRepository.AddAsync(user);
             var token = _jwtTokenGenerator.GenerateToken(user.Id, user.Email, "User");
-            var cacheKey = $"user:{user.Id}";
-            await _cacheService.SetAsync(cacheKey, new { user.Id, user.Email, user.Username }, TimeSpan.FromHours(1), cancellationToken);
             return new RegisterUserResponse(token);
         }
     }
