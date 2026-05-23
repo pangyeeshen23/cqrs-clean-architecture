@@ -1,18 +1,19 @@
 services:
-  api:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    ports:
-      - "8080:8080"
-    environment:
-      ASPNETCORE_ENVIRONMENT: Development
-      ASPNETCORE_URLS: http://+:8080
-    networks:
-      - webapp-network
-    depends_on:
-      - mssql
-      - redis
+  # notes : it is unstable, sometime it start and works but sometimes it just don't start at all
+  #api:
+  #  build:
+  #    context: .
+  #    dockerfile: Dockerfile
+  #  ports:
+  #    - "8080:8080"
+  #  environment:
+  #    ASPNETCORE_ENVIRONMENT: Development
+  #    ASPNETCORE_URLS: http://+:8080
+  #  networks:
+  #    - webapp-network
+  #  depends_on:
+  #    - mssql
+  #    - redis
 
   mssql:
     image: mcr.microsoft.com/mssql/server:2025-latest
