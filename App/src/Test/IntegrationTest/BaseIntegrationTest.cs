@@ -20,7 +20,7 @@ namespace Test.IntegrationTest
         protected TestHost? _host;
 
         [TestInitialize]
-        public void Setup()
+        public virtual void Setup()
         {
             _host = new TestHost();
             using var scope = _host.Thost.Services.CreateScope();

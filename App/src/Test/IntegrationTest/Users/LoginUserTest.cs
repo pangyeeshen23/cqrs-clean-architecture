@@ -23,7 +23,7 @@ namespace Test.UnitTest.Users
         private IMediator? _mediator;
 
         [TestInitialize]
-        public void Setup()
+        public override void Setup()
         {
             base.Setup();
             _mediator = _host?.Thost.Services.GetRequiredService<IMediator>();
