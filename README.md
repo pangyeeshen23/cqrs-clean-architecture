@@ -92,7 +92,15 @@ In the User table, an index had been added to the Username column because the lo
 
 ## Logging & Monitoring
 
+The framework used for logging is called SeriLog
 
+It would produce a log to the console and a file format
+
+What are being logged are shown below :
+1. Request (High Level Info)
+2. Liscensing Info (Depend On Library)
+3. Stack Trace of Exception
+4. Response (High Level Info)
 
 ## Api Rate Limiting
 A global rate limiting has been added to all the controller in the project.
