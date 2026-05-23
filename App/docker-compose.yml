@@ -1,4 +1,19 @@
 services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: http://+:8080
+    networks:
+      - webapp-network
+    depends_on:
+      - mssql
+      - redis
+
   mssql:
     image: mcr.microsoft.com/mssql/server:2025-latest
     container_name: sqlserver
@@ -10,6 +25,10 @@ services:
       - MSSQL_PID=Developer
     volumes:
       - sqlserverdata:/var/opt/mssql
+    healthcheck:
+      test : ["CMD-SHELL", "/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P !chOjavacr5swi1r -Q 'SELECT 1"]
+      interval: 10s
+      retries: 10
     networks:
       - webapp-network
 

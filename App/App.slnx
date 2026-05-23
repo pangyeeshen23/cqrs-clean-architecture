@@ -1,4 +1,8 @@
 <Solution>
+  <Folder Name="/Solution Items/">
+    <File Path="docker-compose.yml" />
+    <File Path="Dockerfile" />
+  </Folder>
   <Folder Name="/src/">
     <Project Path="src/Core/Application/Application.csproj" Id="d98b2bd6-65d9-4aa5-9bd5-626f4eedcdfa" />
     <Project Path="src/Core/Domain/Domain.csproj" Id="005a1ea2-2f88-45d6-8638-3f80a19aca81" />

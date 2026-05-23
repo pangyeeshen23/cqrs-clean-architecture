@@ -1,6 +1,8 @@
 using AngleSharp;
 using Application;
 using Infrastructure;
+using Infrastructure.Context;
+using Microsoft.EntityFrameworkCore;
 using Presentation;
 using Serilog;
 using System.IdentityModel.Tokens.Jwt;
@@ -32,7 +34,6 @@ Log.Logger = new LoggerConfiguration()
 builder.Host.UseSerilog();
 builder.Services.AddHttpContextAccessor();
 var app = builder.Build();
-
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -46,4 +47,7 @@ app.UseHttpsRedirection();
 app.UseExceptionHandler();
 app.UseRateLimiter();
 app.UseSerilogRequestLogging();
+using var scope = app.Services.CreateScope();
+var db = scope.ServiceProvider.GetRequiredService<MyDbContext>();
+db.Database.Migrate();
 app.Run();
