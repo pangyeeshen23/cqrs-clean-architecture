@@ -30,7 +30,7 @@ namespace Test.UnitTest.Users
         }
 
         [TestMethod]
-        public async Task UserLogin_Failed_UserNotFoundException()
+        public async Task UserLogin_Should_Failed_UserNotFoundException()
         {
             LoginUserCommand command = new LoginUserCommand("ethanpang", "!123qwe123");
             Func<Task> act = () => _mediator!.Send(command);
@@ -38,7 +38,7 @@ namespace Test.UnitTest.Users
         }
 
         [TestMethod]
-        public async Task UserLogin_Success()
+        public async Task UserLogin_Should_Success()
         {
             UserSeeder userSeeder = new UserSeeder(
                 _host!.Thost.Services.GetRequiredService<IUserRepository>(), 
