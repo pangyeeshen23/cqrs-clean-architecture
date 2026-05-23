@@ -1,6 +1,6 @@
 ﻿using AngleSharp.Io;
 using Application.Common.Interfaces;
-using Application.Tags.Common.Redis;
+using Application.Common.Redis;
 using Domain.Caching;
 using Domain.Entities;
 using Domain.Repositories;
@@ -39,7 +39,7 @@ namespace Application.Tags.Commnads.CreateTag
                 OwnerId = _currentUserService.UserId
             };
             await _tagRepository.CreateAsync(tag);
-            await _cacheService.RemoveAsync($"{RedisKeys.List}", cancellationToken);
+            await _cacheService.RemoveAsync($"{RedisKeys.TagList}", cancellationToken);
             return new CreateTagResponse(tag.Id);
         }
     }

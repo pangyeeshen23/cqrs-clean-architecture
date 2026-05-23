@@ -1,6 +1,6 @@
 ﻿using AngleSharp.Common;
 using Application.Common.Interfaces;
-using Application.Posts.Common.Redis;
+using Application.Common.Redis;
 using Domain.Caching;
 using Domain.Entities;
 using Domain.Exceptions;
@@ -50,7 +50,8 @@ namespace Application.Posts.Commands.UpdatePost
             List<PostTags> addedTags = addedTagIds.Select(e => new PostTags() { PostId = post.Id, TagId = e }).ToList();
             await _postTagRepository.DeleteRangeAsync(removeTagIds);
             await _postTagRepository.CreateRangeAsync(addedTags);
-            await _cacheService.RemoveAsync($"{RedisKeys.List}", cancellationToken);
+            string key = RedisKeys.PostList.Replace("{user_id}", _currentUserService.UserId.ToString());
+            await _cacheService.RemoveAsync(key, cancellationToken);
             return new UpdatePostResponse(post.Id);
         }
     }

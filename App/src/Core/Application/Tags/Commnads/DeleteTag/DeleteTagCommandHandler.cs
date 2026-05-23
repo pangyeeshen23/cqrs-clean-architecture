@@ -1,6 +1,5 @@
 ﻿using Application.Common.Interfaces;
-using Application.Tags.Commnads.CreateTag;
-using Application.Tags.Common.Redis;
+using Application.Common.Redis;
 using Domain.Caching;
 using Domain.Entities;
 using Domain.Exceptions;
@@ -36,7 +35,7 @@ namespace Application.Tags.Commnads.DeleteTag
             filter.Id = request.Id;
             filter.OwnerId = _currentUserService.UserId;
             Tag tag = await _tagRepository.GetAsync(filter) ?? throw new NotFoundException("Tag");
-            await _cacheService.RemoveAsync($"{RedisKeys.List}", cancellationToken);
+            await _cacheService.RemoveAsync($"{RedisKeys.TagList}", cancellationToken);
             await _tagRepository.DeleteAsync(tag);
         }
     }

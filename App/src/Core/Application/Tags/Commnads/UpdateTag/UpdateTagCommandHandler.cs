@@ -1,6 +1,5 @@
 ﻿using Application.Common.Interfaces;
-using Application.Tags.Commnads.DeleteTag;
-using Application.Tags.Common.Redis;
+using Application.Common.Redis;
 using Domain.Caching;
 using Domain.Entities;
 using Domain.Exceptions;
@@ -42,7 +41,7 @@ namespace Application.Tags.Commnads.UpdateTag
                 tag.Slug = request.Title.ToLower().Trim().Replace(" ", "-");
             }
             tag.Description = request.Description;
-            await _cacheService.RemoveAsync($"{RedisKeys.List}", cancellationToken);
+            await _cacheService.RemoveAsync($"{RedisKeys.TagList}", cancellationToken);
             await _tagRepository.UpdateAsync(tag);
         }
     }

@@ -1,5 +1,5 @@
 ﻿using Application.Common.Interfaces;
-using Application.Posts.Common.Redis;
+using Application.Common.Redis;
 using Domain.Caching;
 using Domain.Entities;
 using Domain.Exceptions;
@@ -36,7 +36,8 @@ namespace Application.Posts.Commands.DeletePost
             filter.OwnerId = _currentUserService.UserId;
             Post post = await _postRepository.GetAsync(filter) ?? throw new NotFoundException("Post");
             await _postRepository.DeleteAsync(post);
-            await _cacheService.RemoveAsync($"{RedisKeys.List}", cancellationToken);
+            string key = RedisKeys.PostList.Replace("{user_id}", _currentUserService.UserId.ToString());
+            await _cacheService.RemoveAsync(key, cancellationToken);
         }
     }
 }

@@ -22,7 +22,6 @@ namespace Presentation.Controllers.Tags
             _mediator = mediator;
         }
 
-        [Authorize]
         [HttpGet("list")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]

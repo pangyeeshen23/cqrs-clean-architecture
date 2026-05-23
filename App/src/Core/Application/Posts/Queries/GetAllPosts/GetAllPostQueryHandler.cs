@@ -1,5 +1,5 @@
 ﻿using Application.Common.Interfaces;
-using Application.Posts.Common.Redis;
+using Application.Common.Redis;
 using Domain.Caching;
 using Domain.Entities;
 using Domain.Repositories;
@@ -28,7 +28,8 @@ namespace Application.Posts.Queries.GetAllPosts
 
         public async Task<List<GetAllPostResponse>> Handle(GetAllPostQuery request, CancellationToken cancellationToken)
         {
-            List<GetAllPostResponse>? cached = await _cacheService.GetAsync<List<GetAllPostResponse>>($"{RedisKeys.List}", cancellationToken);
+            string key = RedisKeys.PostList.Replace("{user_id}", _currentUserService.UserId.ToString());
+            List<GetAllPostResponse>? cached = await _cacheService.GetAsync<List<GetAllPostResponse>>(key, cancellationToken);
             if (cached != null) return cached;
             PostFilterModel filter = new PostFilterModel();
             filter.OwnerId = _currentUserService.UserId;
@@ -43,7 +44,7 @@ namespace Application.Posts.Queries.GetAllPosts
                     e.PostTags.Select(e => new TagResponse(e.Tag.Id, sanitizer.Sanitize(e.Tag.Title)))
                 )
             ).ToList();
-            await _cacheService.SetAsync($"{RedisKeys.List}", response, TimeSpan.FromHours(1), cancellationToken);
+            await _cacheService.SetAsync(key, response, TimeSpan.FromHours(1), cancellationToken);
             return response;
         }
     }

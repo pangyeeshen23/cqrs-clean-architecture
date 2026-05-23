@@ -1,5 +1,5 @@
 ﻿using Application.Common.Interfaces;
-using Application.Tags.Common.Redis;
+using Application.Common.Redis;
 using Domain.Caching;
 using Domain.Entities;
 using Domain.Repositories;
@@ -26,14 +26,14 @@ namespace Application.Tags.Queries.GetAllTags
 
         public async Task<List<GetAllTagResponse>> Handle(GetAllTagQuery request, CancellationToken cancellationToken)
         {
-            List<GetAllTagResponse>? cached = await _cacheService.GetAsync<List<GetAllTagResponse>>($"{RedisKeys.List}", cancellationToken);
+            List<GetAllTagResponse>? cached = await _cacheService.GetAsync<List<GetAllTagResponse>>($"{RedisKeys.TagList}", cancellationToken);
             if (cached != null) return cached;
             List<Tag> tags = await _tagRepository.GetAllByAync();
             var sanitizer = new HtmlSanitizer();
             List<GetAllTagResponse> response = tags.Select(
                 t => new GetAllTagResponse(t.Id, sanitizer.Sanitize(t.Title), sanitizer.Sanitize(t.Description), sanitizer.Sanitize(t.Slug))
             ).ToList();
-            await _cacheService.SetAsync($"{RedisKeys.List}", response, TimeSpan.FromHours(1), cancellationToken);
+            await _cacheService.SetAsync($"{RedisKeys.TagList}", response, TimeSpan.FromHours(1), cancellationToken);
             return response;
         }
     }
