@@ -24,3 +24,9 @@
 /App/src/Test/obj/Debug/net10.0
 /App/src/Test/obj
 /App/src/Web/logs
+/App/src/Core/Application/bin/Release/net10.0
+/App/src/Core/Domain/bin/Release/net10.0
+/App/src/Core/Infrastructure/bin/Release/net10.0
+/App/src/Core/Presentation/bin/Release/net10.0
+/App/src/Test/bin/Release/net10.0
+/App/src/Web/bin/Release/net10.0
