@@ -103,3 +103,10 @@ There is a queue limit of 5 as well.
 
 So it would be 10 immediate API calls and 5 in queue.
 
+
+## Caching
+
+Data that are being cache are data like tag and post
+
+The invalidation strategy implemented is to remove cache whenever there is a action of insertion of record, update of record or delete or record of the same entity.
+
