@@ -1,6 +1,8 @@
+using AngleSharp;
 using Application;
 using Infrastructure;
 using Presentation;
+using Serilog;
 using System.IdentityModel.Tokens.Jwt;
 using Web.Middleware;
 
@@ -17,8 +19,18 @@ builder.Services.AddAuthentication();
 builder.Services.AddAuthorization();
 builder.Services.AddPresentation();
 RateLimiterMiddleware.Register(builder.Services);
+Log.Logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(builder.Configuration)
+    .Enrich.FromLogContext()
+    .Enrich.WithThreadId()
+    .Enrich.WithMachineName()
+    .WriteTo.Console()
+    .WriteTo.File(
+        "logs/log-.txt",
+        rollingInterval: RollingInterval.Day)
+    .CreateLogger();
+builder.Host.UseSerilog();
 builder.Services.AddHttpContextAccessor();
-
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -33,4 +45,5 @@ app.MapControllers()
 app.UseHttpsRedirection();
 app.UseExceptionHandler();
 app.UseRateLimiter();
+app.UseSerilogRequestLogging();
 app.Run();

@@ -18,7 +18,7 @@ namespace Infrastructure
     public static class DependencyInjection
     {
 
-        public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration config, bool skipDb = false)
+        public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration config, bool isTestEnv = false)
         {
             services.AddDistributedMemoryCache();
             services.AddScoped<IUserRepository, UserRepository>();
@@ -47,7 +47,7 @@ namespace Infrastructure
                     };
                 }
             );
-            if(!skipDb)
+            if (!isTestEnv)
             {
                 services.AddStackExchangeRedisCache(options =>
                 {

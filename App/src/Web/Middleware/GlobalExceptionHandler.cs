@@ -19,7 +19,6 @@ namespace Web.Middleware
 
         public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
         {
-            _logger.LogError(exception, "An unhandled exception occurred.");
             ProblemDetails problemDetails = new ProblemDetails
             {
                 Instance = $"{httpContext.Request.Method} {httpContext.Request.Path}"
