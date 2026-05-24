@@ -32,7 +32,7 @@ jobs:
         run: dotnet format --verify-no-changes --verbosity diagnostic
 
       - name: Build
-        run: dotnet build --no-restore --configuration Release
+        run: dotnet build
 
       - name: Test
-        run: dotnet test --no-build --configuration Release
+        run: dotnet test
