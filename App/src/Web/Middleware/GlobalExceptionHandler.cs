@@ -19,6 +19,7 @@ namespace Web.Middleware
 
         public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
         {
+            _logger.LogError($"[Reqeust] : {httpContext.Request.Path}, [Message] : {exception.Message}, [Stack Trace] : {exception.StackTrace}");
             ProblemDetails problemDetails = new ProblemDetails
             {
                 Instance = $"{httpContext.Request.Method} {httpContext.Request.Path}"

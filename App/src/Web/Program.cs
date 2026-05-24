@@ -39,12 +39,13 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseSerilogRequestLogging();
+app.UseExceptionHandler();
+app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseRateLimiter();
 app.MapControllers()
     .RequireRateLimiting("ipPolicy");
-app.UseHttpsRedirection();
-app.UseExceptionHandler();
-app.UseRateLimiter();
-app.UseSerilogRequestLogging();
 app.Run();
