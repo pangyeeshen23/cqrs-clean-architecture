@@ -103,7 +103,7 @@ An Example of 'errors'
 
 ## Database Indexing
 
-As of now, Indexing that are added are on the foreign key of every table to allow faster search and join operation. Which is added automatically.
+As of now, Indexing that are added are on the primary key and foreign keys of every table to allow faster search and join operation. Which is added automatically.
 
 In the User table, an index had been added to the Username column because the login commnad had used where search for that.
 
