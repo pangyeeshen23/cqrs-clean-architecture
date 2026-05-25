@@ -38,7 +38,7 @@ jobs:
         run: dotnet build --no-restore
 
       - name: Prepare Test Project Appsettings
-        run: mv src/Test/appsettings.Example.json src/Test/appsettings.json
+        run: cp src/Test/appsettings.Example.json src/Test/appsettings.json
 
       - name: Test
         run: dotnet test --no-build
