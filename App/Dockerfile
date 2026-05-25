@@ -1,24 +1,24 @@
-FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
-WORKDIR /src
+FROM mcr.microsoft.com/dotnet/sdk:10.0 
 
-COPY src/Core/Application/*.csproj src/Core/Application/
-COPY src/Core/Domain/*.csproj src/Core/Domain/
-COPY src/Core/Infrastructure/*.csproj src/Core/Infrastructure/
-COPY src/Core/Presentation/*.csproj src/Core/Presentation/
-COPY src/Web/*.csproj src/Web/
-
-RUN dotnet restore src/Web/Web.csproj
+WORKDIR /app
 
 COPY . .
 
-RUN dotnet publish src/Web/Web.csproj -c Release -o /app/publish
+RUN dotnet tool install --global dotnet-ef
 
-FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS runtime
-WORKDIR /app
+ENV PATH="$PATH:/root/.dotnet/tools"
 
-COPY --from=build /app/publish .
+RUN dotnet restore src/Web/Web.csproj
+
+RUN dotnet publish src/Web/Web.csproj \
+    -c Release \
+    -o /app/publish
+
+
+COPY entrypoint.sh .
+
+RUN chmod +x entrypoint.sh
 
 EXPOSE 8080
-ENV ASPNETCORE_URLS=http://+:8080
 
-ENTRYPOINT ["dotnet", "Web.dll"]
+ENTRYPOINT ["./entrypoint.sh"]
