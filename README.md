@@ -17,7 +17,7 @@ Here is the list of Prerequisition that you need to do before running the Projec
     2. Install Docker Desktop (I used Docker version 29.4.3)
     3. Install IDE (I used Visual Studio Community Version 18.6.1)
 
-## Run Locally
+## Run Locally - Docker Compose
 
 Step 1 : Clone the project
 
@@ -32,10 +32,44 @@ Step 3 : Go to the project directory using the IDE's terminal
   cd webby-test/App
 ```
 
-Step 4 : Run Docker Compose Up To Set Up MSSQL + Redis
+Step 4 : Update the following file's credentials and rename them to the correct format
+
+```bash
+  /App/docker-compose-example.yml -> /App/docker-compose.yml
+  Inside  /App/docker-compose.yml Replace All the YourPassword
+
+  /App/Web/appsettings.Example.json -> /App/Web/appsettings.Development.json
+  Inside appsettings.Development.json Update the Connection string to the credential that you had in the Dockerfile
+```
+
+Step 5 : Run Docker Compose Up To Set Up Api + MSSQL + Redis in the IDE's terminal
 
 ```bash
   docker compose up
+```
+
+Step 6 : Navigate to http://localhost:8080/swagger to view all endpoints
+
+## Run Locally - MSSQL, Redis Install Locally
+
+Step 1 : Clone the project
+
+```bash
+  git clone https://github.com/pangyeeshen23/webby-test.git
+```
+Step 2 : Open the project in IDE
+
+Step 3 : Go to the project directory using the IDE's terminal
+
+```bash
+  cd webby-test/App
+```
+
+Step 4 : Update the following file's credentials and rename them to the correct format
+
+```bash
+  /App/Web/appsettings.Example.json -> /App/Web/appsettings.Development.json
+  Inside appsettings.Development.json Update the Connection string to the credential that you had in the Dockerfile
 ```
 
 Step 5 : Run Migrations
@@ -46,10 +80,22 @@ Step 5 : Run Migrations
 
 Step 6 : Run and Build the project using that IDE
 
-Step 7 : Navigate To /swagger for REST API Document
+Step 7 : Navigate To  https://localhost:8080/swagger for REST API Document
 
 Notes : Remember To Run dotnet format on \App to format the project before pushing changes to main
 
+
+## Test Project Setup
+
+
+Step 1 : Update the appsettings.Example.json
+
+```bash
+  /App/src/Test/appsettings.Example.json -> /App/src/Test/appsettings.json
+  Update the credential to your liking
+```
+
+Step 2 : Do Ensure that the main project can be build first. Run the test in the IDE's Test Explorer. 
 
 ## Migrations
 
@@ -103,7 +149,7 @@ An Example of 'errors'
 
 ## Database Indexing
 
-As of now, Indexing that are added are on the primary key and foreign keys of every table to allow faster search and join operation. Which is added automatically.
+As of now, Indexing that are added are on the foreign key of every table to allow faster search and join operation. Which is added automatically.
 
 In the User table, an index had been added to the Username column because the login commnad had used where search for that.
 
@@ -136,40 +182,3 @@ Data that are being cache are data like tag and post
 The invalidation strategy implemented is to remove cache whenever there is a action of insertion of record, update of record or delete or record of the same entity.
 
 
-
-## Docker
-
-A Dockerfile has been provided that is able to build the project into an image. which then can be used to produce container
-
-Step 1 : Navigate To App
-```bash
-  cd webby-test/App
-```
-
-Step 2 : Run the command below
-```bash
-   docker built -t app .
-```
-
-## Postman/Insomnia Collection
-
-To export a postman collection
-
-Step 1 : Run The Project In Development Mode
-
-Step 2 : Navigate To Swagger
-```bash
-   {base_url}/swagger/index.html
-```
-
-Step 5 : Copy the {base_url}/swagger/v1/swagger.json link in the page
-
-Step 6 : Open Postman
-
-Step 7 : Sign Into you postman account If you haven't 
-
-Step 8 : Find and Click Import in Collection Tab
-
-Step 9 : Paste the url into the input field 
-
-Notes : further configuration or set up will be required but it does list out all the endpoints available
