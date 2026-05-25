@@ -34,11 +34,11 @@ jobs:
       - name: Verify Formatting
         run: dotnet format --verify-no-changes --verbosity diagnostic
 
-      - name: Build
-        run: dotnet build --no-restore
-
       - name: Prepare Test Project Appsettings
         run: cp src/Test/appsettings.Example.json src/Test/appsettings.json
+
+      - name: Build
+        run: dotnet build --no-restore
 
       - name: Test
         run: dotnet test --no-build
