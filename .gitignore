@@ -30,3 +30,5 @@
 /App/src/Core/Presentation/bin/Release/net10.0
 /App/src/Test/bin/Release/net10.0
 /App/src/Web/bin/Release/net10.0
+/App/src/Test/appsettings.json
+/App/docker-compose.yml
