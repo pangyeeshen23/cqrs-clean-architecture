@@ -69,7 +69,7 @@ Step 4 : Update the following file's credentials and rename them to the correct 
 
 ```bash
   /App/Web/appsettings.Example.json -> /App/Web/appsettings.Development.json
-  Inside appsettings.Development.json Update the Connection string to the credential that you had in the Dockerfile
+  Inside appsettings.Development.json Update the Connection string to the credential that you had
 ```
 
 Step 5 : Run Migrations
