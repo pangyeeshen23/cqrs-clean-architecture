@@ -3,6 +3,7 @@
     <File Path="../README.md" />
     <File Path="docker-compose.yml" />
     <File Path="Dockerfile" />
+    <File Path="entrypoint.sh" />
   </Folder>
   <Folder Name="/src/">
     <Project Path="src/Core/Application/Application.csproj" Id="d98b2bd6-65d9-4aa5-9bd5-626f4eedcdfa" />
