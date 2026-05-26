@@ -41,8 +41,7 @@ namespace Application.Users.Commands.RegisterUser
                 {
                     FullName = request.Username,
                     Age = request.Age,
-                    PhoneNumber = request.PhoneNumber,
-                    Address = request.Address
+                    PhoneNumber = request.PhoneNumber
                 }
             };
             user.PasswordHash = _passwordHasher.HashPassword(user, request.Password);

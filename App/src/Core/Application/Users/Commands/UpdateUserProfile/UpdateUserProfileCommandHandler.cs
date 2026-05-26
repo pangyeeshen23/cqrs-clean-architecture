@@ -35,7 +35,6 @@ namespace Application.Users.Commands.UpdateUserProfile
             if (request.FullName != null) userProfile.FullName = request.FullName;
             if (request.Age != null) userProfile.Age = request.Age.Value;
             if (request.PhoneNumber != null) userProfile.PhoneNumber = request.PhoneNumber;
-            if (request.Address != null) userProfile.Address = request.Address;
             await _userProfileRepository.UpdateAsync(userProfile);
             return new UpdateUserProfileResponse();
         }

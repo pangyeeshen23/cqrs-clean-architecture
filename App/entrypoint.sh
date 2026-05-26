@@ -8,4 +8,5 @@ dotnet ef database update \
 
 echo "Starting API.."
 
-exec dotnet /app/publish/Web.dll
+cd /app/publish
+exec dotnet Web.dll

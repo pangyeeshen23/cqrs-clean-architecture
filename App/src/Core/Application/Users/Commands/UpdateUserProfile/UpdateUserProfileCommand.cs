@@ -8,8 +8,7 @@ namespace Application.Users.Commands.UpdateUserProfile
     public record UpdateUserProfileCommand(
         string FullName,
         int? Age,
-        string? PhoneNumber,
-        string? Address
+        string? PhoneNumber
     ) : IRequest<UpdateUserProfileResponse>;
 
     public record UpdateUserProfileResponse

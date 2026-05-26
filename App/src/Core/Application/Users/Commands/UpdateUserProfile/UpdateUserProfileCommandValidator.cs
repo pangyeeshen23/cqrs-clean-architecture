@@ -26,9 +26,6 @@ namespace Application.Users.Commands.UpdateUserProfile
                 .Matches(@"^\+?(\d{1,3})?[-.\s]?(\(?\d{1,4}\)?[-.\s]?){1,3}\d{1,4}[-.\s]?\d{1,9}$")
                 .WithMessage("Invalid phone number format");
 
-            RuleFor(x => x.Address)
-                .NotEmpty().WithMessage("Address is required")
-                .MinimumLength(10).WithMessage("Address must be at least 10 characters long");
         }
     }
 }

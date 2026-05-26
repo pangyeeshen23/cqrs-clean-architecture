@@ -25,8 +25,7 @@ namespace Test.Core.Seeder
                 {
                     FullName = "Pang Yee Shen",
                     Age = 23,
-                    PhoneNumber = "60122792350",
-                    Address = "A-17-3A, Taman Green Park Residence"
+                    PhoneNumber = "60122792350"
                 }
             };
             user.PasswordHash = _passwordHasher.HashPassword(user, "!root123Qwe123");

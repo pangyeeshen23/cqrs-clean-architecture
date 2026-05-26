@@ -15,7 +15,7 @@ using Moq;
 using Test.Core.Seeder;
 using Test.IntegrationTest;
 
-namespace Test.UnitTest.Users
+namespace Test.IntegrationTest.Users
 {
     [TestClass]
     public sealed class LoginUserTest : BaseIntegrationTest
@@ -29,13 +29,6 @@ namespace Test.UnitTest.Users
             _mediator = _host?.Thost.Services.GetRequiredService<IMediator>();
         }
 
-        [TestMethod]
-        public async Task UserLogin_Should_Failed_UserNotFoundException()
-        {
-            LoginUserCommand command = new LoginUserCommand("ethanpang", "!123qwe123");
-            Func<Task> act = () => _mediator!.Send(command);
-            await act.Should().ThrowAsync<NotFoundException>();
-        }
 
         [TestMethod]
         public async Task UserLogin_Should_Success()
@@ -48,6 +41,27 @@ namespace Test.UnitTest.Users
             LoginUserCommand command = new LoginUserCommand("ethanpang", "!root123Qwe123");
             var result = await _mediator!.Send(command);
             Assert.IsNotEmpty(result.Token);
+        }
+
+        [TestMethod]
+        public async Task UserLogin_Should_Failed_UserNotFoundException()
+        {
+            LoginUserCommand command = new LoginUserCommand("ethanpang", "!123qwe123");
+            Func<Task> act = () => _mediator!.Send(command);
+            await act.Should().ThrowAsync<NotFoundException>();
+        }
+
+        [TestMethod]
+        public async Task UserLogin_Should_Failed_InvalidCredentialException()
+        {
+            UserSeeder userSeeder = new UserSeeder(
+                _host!.Thost.Services.GetRequiredService<IUserRepository>(),
+                _host.Thost.Services.GetRequiredService<IPasswordHasher<User>>()
+            );
+            await userSeeder.SeedUser();
+            LoginUserCommand command = new LoginUserCommand("ethanpang", "!root123Qwe12345");
+            Func<Task> act = () => _mediator!.Send(command);
+            await act.Should().ThrowAsync<InvalidCredentialException>();
         }
     }
 }

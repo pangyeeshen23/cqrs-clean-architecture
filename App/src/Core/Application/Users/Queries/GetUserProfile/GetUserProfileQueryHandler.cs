@@ -24,7 +24,7 @@ namespace Application.Users.Queries.GetUserProfile
             filter.Id = request.UserId;
             filter.IsIncludeUserProfile = true;
             User user = await _userRepository.GetByAsync(filter) ?? throw new NotFoundException("User");
-            return new GetUserProfileResponse(user.Username, user.Email, user.Profile.FullName, user.Profile.Age, user.Profile.PhoneNumber, user.Profile.Address);
+            return new GetUserProfileResponse(user.Username, user.Email, user.Profile.FullName, user.Profile.Age, user.Profile.PhoneNumber);
         }
     }
 }

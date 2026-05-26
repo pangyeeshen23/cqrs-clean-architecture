@@ -21,4 +21,6 @@ RUN chmod +x entrypoint.sh
 
 EXPOSE 8080
 
+ENV ASPNETCORE_ENVIRONMENT=Development
+
 ENTRYPOINT ["./entrypoint.sh"]

@@ -9,8 +9,7 @@ namespace Application.Users.Commands.RegisterUser
         string Password,
         string ConfirmPassword,
         int Age,
-        string PhoneNumber,
-        string Address
+        string PhoneNumber
     ) : IRequest<RegisterUserResponse>;
 
     public record RegisterUserResponse(

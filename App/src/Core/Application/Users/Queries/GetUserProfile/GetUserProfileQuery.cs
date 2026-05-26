@@ -15,7 +15,6 @@ namespace Application.Users.Queries.GetUserProfile
         string Email,
         string FullName,
         int Age,
-        string PhoneNumber,
-        string Address
+        string PhoneNumber
     );
 }
