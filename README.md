@@ -181,4 +181,10 @@ Data that are being cache are data like tag and post
 
 The invalidation strategy implemented is to remove cache whenever there is a action of insertion of record, update of record or delete or record of the same entity.
 
+## CI/CD
+
+Currently, The pipeline will run thru these process
+
+1. Verifying C# code formatting with dotnet format
+2. Run automated testing 
 
