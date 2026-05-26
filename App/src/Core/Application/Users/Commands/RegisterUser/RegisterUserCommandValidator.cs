@@ -42,7 +42,7 @@ namespace Application.Users.Commands.RegisterUser
 
             RuleFor(x => x.PhoneNumber)
                 .NotEmpty().WithMessage("Phone number is required")
-                .Matches(@"^\+?(\d{1,3})?[-.\s]?(\(?\d{1,4}\)?[-.\s]?){1,3}\d{1,4}[-.\s]?\d{1,9}$")
+                .Matches(@"^[1-9]\d{7,14}$")
                 .WithMessage("Invalid phone number format");
 
         }

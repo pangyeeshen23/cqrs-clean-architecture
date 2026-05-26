@@ -44,5 +44,68 @@ namespace Test.IntegrationTest.Users
             await act.Should().ThrowAsync<UserAlreadyExistsException>();
         }
 
+        [TestMethod]
+        public async Task RegisterUser_Should_Failed_FluentValidationErrorUsername()
+        {
+            RegisterUserCommand command = new RegisterUserCommand("ethanPang123!@34()", "ethanPang@gamil.com", "Pang Yee Shen", "!root123Qwe123", "!root123Qwe123", 23, "0122792350");
+            Func<Task> act = () => _mediator!.Send(command);
+            await act.Should().ThrowAsync<ValidationException>()
+                .Where(ex => ex.Errors.Any(message => message.PropertyName == "Username"));
+        }
+
+        [TestMethod]
+        public async Task RegisterUser_Should_Failed_FluentValidationErrorEmail()
+        {
+            RegisterUserCommand command = new RegisterUserCommand("ethanPang", "ethanPang-gmail.com", "Pang Yee Shen", "!root123Qwe123", "!root123Qwe123", 23, "0122792350");
+            Func<Task> act = () => _mediator!.Send(command);
+            await act.Should().ThrowAsync<ValidationException>()
+                .Where(ex => ex.Errors.Any(message => message.PropertyName == "Email"));
+        }
+
+        [TestMethod]
+        public async Task RegisterUser_Should_Failed_FluentValidationFullName()
+        {
+            RegisterUserCommand command = new RegisterUserCommand("ethanPang", "ethanPang@gmail.com", "Pang Yee Shen !!()", "!root123Qwe123", "!root123Qwe123", 23, "0122792350");
+            Func<Task> act = () => _mediator!.Send(command);
+            await act.Should().ThrowAsync<ValidationException>()
+                .Where(ex => ex.Errors.Any(message => message.PropertyName == "FullName"));
+        }
+
+        [TestMethod]
+        public async Task RegisterUser_Should_Failed_FluentValidationPassword()
+        {
+            RegisterUserCommand command = new RegisterUserCommand("ethanPang", "ethanPang@gmail.com", "Pang Yee Shen", "root", "root", 23, "0122792350");
+            Func<Task> act = () => _mediator!.Send(command);
+            await act.Should().ThrowAsync<ValidationException>()
+                .Where(ex => ex.Errors.Any(message => message.PropertyName == "Password"));
+        }
+
+        [TestMethod]
+        public async Task RegisterUser_Should_Failed_FluentValidationConfirmPassword()
+        {
+            RegisterUserCommand command = new RegisterUserCommand("ethanPang", "ethanPang@gmail.com", "Pang Yee Shen", "!root123Qwe123", "root", 23, "0122792350");
+            Func<Task> act = () => _mediator!.Send(command);
+            await act.Should().ThrowAsync<ValidationException>()
+                .Where(ex => ex.Errors.Any(message => message.PropertyName == "ConfirmPassword"));
+        }
+
+        [TestMethod]
+        public async Task RegisterUser_Should_Failed_FluentValidationAge()
+        {
+            RegisterUserCommand command = new RegisterUserCommand("ethanPang", "ethanPang@gmail.com", "Pang Yee Shen", "!root123Qwe123", "!root123Qwe123", -1, "0122792350");
+            Func<Task> act = () => _mediator!.Send(command);
+            await act.Should().ThrowAsync<ValidationException>()
+                .Where(ex => ex.Errors.Any(message => message.PropertyName == "Age"));
+        }
+
+
+        [TestMethod]
+        public async Task RegisterUser_Should_Failed_FluentValidationPhoneNumber()
+        {
+            RegisterUserCommand command = new RegisterUserCommand("ethanPang", "ethanPang@gmail.com", "Pang Yee Shen", "!root123Qwe123", "!root123Qwe123", 23, "-10122792350");
+            Func<Task> act = () => _mediator!.Send(command);
+            await act.Should().ThrowAsync<ValidationException>()
+                .Where(ex => ex.Errors.Any(message => message.PropertyName == "PhoneNumber"));
+        }
     }
 }
