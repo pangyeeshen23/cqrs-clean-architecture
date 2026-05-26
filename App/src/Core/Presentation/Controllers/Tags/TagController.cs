@@ -80,7 +80,7 @@ namespace Presentation.Controllers.Tags
             return Ok(new
             {
                 sucess = true,
-                message = "Tag updated successfully",
+                message = "Tag deleted successfully",
             });
         }
     }

@@ -81,7 +81,7 @@ namespace Presentation.Controllers.Tags
             return Ok(new
             {
                 sucess = true,
-                message = "Post delete successfully",
+                message = "Post deleted successfully",
             });
         }
     }
