@@ -28,7 +28,7 @@ namespace Test.IntegrationTest.Users
         [TestMethod]
         public async Task RegisterUser_Should_Success()
         {
-            RegisterUserCommand command = new RegisterUserCommand("ethanPang", "ethanPang@gamil.com", "Pang Yee Shen", "!root123Qwe123", "!root123Qwe123", 23, "0122792350");
+            RegisterUserCommand command = new RegisterUserCommand("ethanPang", "ethanPang@gamil.com", "Pang Yee Shen", "!root123Qwe123", "!root123Qwe123", 23, "60122792350");
             RegisterUserResponse resp = await _mediator!.Send(command);
             Assert.IsNotEmpty(resp.Token);
         }
@@ -36,7 +36,7 @@ namespace Test.IntegrationTest.Users
         [TestMethod]
         public async Task RegisterUser_Should_Failed_UserAlreadyExistsException()
         {
-            RegisterUserCommand command = new RegisterUserCommand("ethanPang", "ethanPang@gamil.com", "Pang Yee Shen", "!root123Qwe123", "!root123Qwe123", 23, "0122792350");
+            RegisterUserCommand command = new RegisterUserCommand("ethanPang", "ethanPang@gamil.com", "Pang Yee Shen", "!root123Qwe123", "!root123Qwe123", 23, "60122792350");
             RegisterUserResponse resp = await _mediator!.Send(command);
             Assert.IsNotEmpty(resp.Token);
             RegisterUserCommand secondCommand = new RegisterUserCommand("ethanPang", "ethanPang@gamil.com", "Pang Yee Shen", "!root123Qwe123", "!root123Qwe123", 23, "0122792350");
