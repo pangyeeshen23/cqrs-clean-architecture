@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.Json;
 using System.Text.RegularExpressions;
 using Domain.Caching;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
@@ -9,13 +10,19 @@ namespace Infrastructure.Caching.Memory
 {
     public class MemoryCacheService : ICacheService
     {
-        private readonly Dictionary<string, object> _store = new();
+        private readonly Dictionary<string, string> _store = new();
 
         public Task<T?> GetAsync<T>(string key, CancellationToken cancellationToken) where T : class
         {
-            _store.TryGetValue(key, out var value);
-            T convertedVal = (T)value!;
-            return Task.FromResult<T?>(convertedVal);
+            if(_store.TryGetValue(key, out var value))
+            {
+                T? convertedVal = JsonSerializer.Deserialize<T>(value!);
+                return Task.FromResult<T?>(convertedVal);
+            }
+            else
+            {
+                return Task.FromResult<T?>(null);
+            }
         }
 
         public Task RemoveAsync(string key, CancellationToken cancellationToken = default)
@@ -42,7 +49,7 @@ namespace Infrastructure.Caching.Memory
 
         public Task SetAsync<T>(string key, T value, TimeSpan? expiration = null, CancellationToken cancellationToken = default)
         {
-            _store[key] = value!;
+            _store[key] = JsonSerializer.Serialize(value!);
             return Task.CompletedTask;
         }
     }
