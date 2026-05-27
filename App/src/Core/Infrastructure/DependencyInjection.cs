@@ -4,6 +4,7 @@ using Domain.Caching;
 using Domain.Entities;
 using Domain.Repositories;
 using Infrastructure.Authentication;
+using Infrastructure.Caching.Memory;
 using Infrastructure.Caching.Redis;
 using Infrastructure.Context;
 using Infrastructure.Repositories;
@@ -66,7 +67,7 @@ namespace Infrastructure
             }
             else
             {
-                services.AddScoped<ICacheService, RedisCacheService>();
+                services.AddScoped<ICacheService, MemoryCacheService>();
             }
             return services;
         }
