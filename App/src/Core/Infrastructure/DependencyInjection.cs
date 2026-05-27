@@ -51,10 +51,6 @@ namespace Infrastructure
             if (!isTestEnv)
             {
                 services.AddScoped<ICacheService, RedisCacheService>();
-                services.AddStackExchangeRedisCache(options =>
-                {
-                    options.Configuration = config["Redis:ConnectionString"];
-                });
                 services.AddSingleton<IConnectionMultiplexer>(_ =>
                 {
                     var options = ConfigurationOptions.Parse(config["Redis:ConnectionString"]!);

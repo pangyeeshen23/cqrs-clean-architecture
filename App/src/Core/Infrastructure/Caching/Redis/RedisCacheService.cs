@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Text.Json;
+﻿using System.Text.Json;
 using Domain.Caching;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Caching.Distributed;
-using Microsoft.Extensions.Caching.StackExchangeRedis;
-using Microsoft.Extensions.FileSystemGlobbing.Internal;
 using Microsoft.Extensions.Logging;
 using StackExchange.Redis;
 
@@ -40,10 +34,9 @@ namespace Infrastructure.Caching.Redis
         {
             try
             {
-                var cachedData = await _distributeCache.GetStringAsync(key, cancellationToken);
-                if (string.IsNullOrEmpty(cachedData)) return null;
-
-                return JsonSerializer.Deserialize<T>(cachedData, _jsonOptions);
+                RedisValue cachedData = await _db.StringGetAsync(key);
+                if (!cachedData.HasValue) return null;
+                return JsonSerializer.Deserialize<T>(cachedData.ToString(), _jsonOptions);
             }
             catch (Exception ex)
             {
@@ -56,17 +49,8 @@ namespace Infrastructure.Caching.Redis
         {
             try
             {
-                DistributedCacheEntryOptions options = new DistributedCacheEntryOptions();
-                if (expiration.HasValue)
-                {
-                    options.SetSlidingExpiration(expiration.Value);
-                }
-                else
-                {
-                    options.SetSlidingExpiration(TimeSpan.FromMinutes(30));
-                }
                 var serialized = JsonSerializer.Serialize(value, _jsonOptions);
-                await _distributeCache.SetStringAsync(key, serialized, options, cancellationToken);
+                await _db.StringSetAsync(key, serialized, TimeSpan.FromMinutes(5));
             }
             catch (Exception ex)
             {
@@ -78,7 +62,7 @@ namespace Infrastructure.Caching.Redis
         {
             try
             {
-                await _distributeCache.RemoveAsync(key, cancellationToken);
+                await _db.KeyDeleteAsync(key);
             }
             catch (Exception ex)
             {
