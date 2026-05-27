@@ -1,4 +1,6 @@
-﻿using Application.Common.Interfaces;
+﻿using System.Text.Json;
+using Application.Common.Hasher;
+using Application.Common.Interfaces;
 using Application.Common.Redis;
 using Domain.Caching;
 using Domain.Entities;
@@ -28,12 +30,18 @@ namespace Application.Posts.Queries.GetAllPosts
 
         public async Task<List<GetAllPostResponse>> Handle(GetAllPostQuery request, CancellationToken cancellationToken)
         {
+            string md5 = MD5Hasher.ToMd5(JsonSerializer.Serialize(request));
             string key = RedisKeys.PostList.Replace("{user_id}", _currentUserService.UserId.ToString());
+            key = key.Replace("{param}", md5);
             List<GetAllPostResponse>? cached = await _cacheService.GetAsync<List<GetAllPostResponse>>(key, cancellationToken);
             if (cached != null) return cached;
             PostFilterModel filter = new PostFilterModel();
+            filter.Title = request.Title;
+            filter.Content = request.Content;
             filter.OwnerId = _currentUserService.UserId;
             filter.IncludeTags = true;
+            filter.PageSize = request.PageSize;
+            filter.Page = request.Page;
             List<Post> posts = await _postRepository.GetAllByAync(filter);
             var sanitizer = new HtmlSanitizer();
             List<GetAllPostResponse> response = posts.Select(e =>

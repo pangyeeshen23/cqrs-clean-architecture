@@ -9,5 +9,6 @@ namespace Domain.Caching
         public Task<T?> GetAsync<T>(string key, CancellationToken cancellationToken) where T : class;
         public Task SetAsync<T>(string key, T value, TimeSpan? expiration = null, CancellationToken cancellationToken = default);
         public Task RemoveAsync(string key, CancellationToken cancellationToken = default);
+        public Task RemoveItemsByPatternAsync(string pattern);
     }
 }

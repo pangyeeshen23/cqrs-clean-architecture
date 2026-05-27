@@ -37,8 +37,8 @@ namespace Application.Posts.Commands.CreatePost
                 PostTags = tags
             };
             await _postRepository.CreateAsync(post);
-            string key = RedisKeys.PostList.Replace("{user_id}", _currentUserService.UserId.ToString());
-            await _cacheService.RemoveAsync(key, cancellationToken);
+            string key = RedisKeys.PostWildCard.Replace("{user_id}", _currentUserService.UserId.ToString());
+            await _cacheService.RemoveItemsByPatternAsync(key);
             return new CreatePostResponse(post.Id);
         }
     }

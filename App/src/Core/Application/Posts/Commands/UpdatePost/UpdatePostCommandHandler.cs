@@ -50,8 +50,8 @@ namespace Application.Posts.Commands.UpdatePost
             List<PostTags> addedTags = addedTagIds.Select(e => new PostTags() { PostId = post.Id, TagId = e }).ToList();
             await _postTagRepository.DeleteRangeAsync(removeTagIds);
             await _postTagRepository.CreateRangeAsync(addedTags);
-            string key = RedisKeys.PostList.Replace("{user_id}", _currentUserService.UserId.ToString());
-            await _cacheService.RemoveAsync(key, cancellationToken);
+            string key = RedisKeys.PostWildCard.Replace("{user_id}", _currentUserService.UserId.ToString());
+            await _cacheService.RemoveItemsByPatternAsync(key);
             return new UpdatePostResponse(post.Id);
         }
     }

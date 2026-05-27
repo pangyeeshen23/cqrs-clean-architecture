@@ -27,9 +27,8 @@ namespace Presentation.Controllers.Tags
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> List()
+        public async Task<IActionResult> List([FromQuery] GetAllPostQuery query)
         {
-            GetAllPostQuery query = new GetAllPostQuery();
             var result = await _mediator.Send(query);
             return Ok(new
             {

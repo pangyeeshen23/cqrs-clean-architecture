@@ -3,18 +3,27 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.Json;
 using Domain.Caching;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Caching.StackExchangeRedis;
+using Microsoft.Extensions.FileSystemGlobbing.Internal;
 using Microsoft.Extensions.Logging;
+using StackExchange.Redis;
 
-namespace Infrastructure.Caching
+namespace Infrastructure.Caching.Redis
 {
-    public class CacheService : ICacheService
+    public class RedisCacheService : ICacheService
     {
         private readonly IDistributedCache _distributeCache;
-        private readonly ILogger<CacheService> _logger;
+        private readonly ILogger<RedisCacheService> _logger;
         private readonly JsonSerializerOptions _jsonOptions;
-
-        public CacheService(IDistributedCache distributeCache, ILogger<CacheService> logger)
+        private readonly IConnectionMultiplexer _redis;
+        private readonly IDatabase _db;
+        public RedisCacheService(
+            IDistributedCache distributeCache, 
+            ILogger<RedisCacheService> logger,
+            IConnectionMultiplexer connectionMultiplexer
+        )
         {
             _distributeCache = distributeCache;
             _logger = logger;
@@ -23,6 +32,8 @@ namespace Infrastructure.Caching
                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
                 WriteIndented = false
             };
+            _redis = connectionMultiplexer;
+            _db = _redis.GetDatabase();
         }
 
         public async Task<T?> GetAsync<T>(string key, CancellationToken cancellationToken) where T : class
@@ -72,6 +83,23 @@ namespace Infrastructure.Caching
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred while removing cache for key: {Key}", key);
+            }
+        }
+
+        public async Task RemoveItemsByPatternAsync(string pattern)
+        {
+            try
+            {
+                var server = _redis.GetServer(_redis.GetEndPoints().First());
+                var keys = server.Keys(pattern: pattern);
+                foreach(RedisKey key in keys)
+                {
+                    await _db.KeyDeleteAsync(key);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while removing cache for Pattern: {pattern}", pattern);
             }
         }
     }

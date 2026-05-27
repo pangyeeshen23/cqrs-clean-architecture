@@ -22,7 +22,11 @@ namespace Infrastructure.Repositories
             IQueryable<Post> query = _dbContext.Posts.AsQueryable();
             ApplyIdFitter(filter.Id, ref query);
             ApplyOwnerIdFitter(filter.OwnerId, ref query);
+            ApplyTitleFilter(filter.Title, ref query);
+            ApplyContentFilter(filter.Content, ref query);
             if (filter.IncludeTags) IncludeTags(ref query);
+            query = query.Skip((filter.Page - 1) * filter.PageSize);
+            query = query.Take(filter.PageSize);
             return await query.ToListAsync();
         }
 
@@ -48,6 +52,23 @@ namespace Infrastructure.Repositories
             }
 
         }
+
+        private void ApplyTitleFilter(string? title, ref IQueryable<Post> query)
+        {
+            if (!string.IsNullOrEmpty(title))
+            {
+                query = query.Where(t => EF.Functions.Like(t.Title, $"%{title}%"));
+            }
+        }
+
+        private void ApplyContentFilter(string? content, ref IQueryable<Post> query)
+        {
+            if (!string.IsNullOrEmpty(content))
+            {
+                query = query.Where(t => EF.Functions.Like(t.Title, $"%{content}%"));
+            }
+        }
+
 
         private void ApplyOwnerIdFitter(Guid? ownerId, ref IQueryable<Post> query)
         {

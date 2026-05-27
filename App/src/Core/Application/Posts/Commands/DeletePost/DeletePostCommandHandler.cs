@@ -36,8 +36,8 @@ namespace Application.Posts.Commands.DeletePost
             filter.OwnerId = _currentUserService.UserId;
             Post post = await _postRepository.GetAsync(filter) ?? throw new NotFoundException("Post");
             await _postRepository.DeleteAsync(post);
-            string key = RedisKeys.PostList.Replace("{user_id}", _currentUserService.UserId.ToString());
-            await _cacheService.RemoveAsync(key, cancellationToken);
+            string key = RedisKeys.PostWildCard.Replace("{user_id}", _currentUserService.UserId.ToString());
+            await _cacheService.RemoveItemsByPatternAsync(key);
         }
     }
 }
