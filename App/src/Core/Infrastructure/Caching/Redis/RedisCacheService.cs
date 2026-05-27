@@ -20,7 +20,7 @@ namespace Infrastructure.Caching.Redis
         private readonly IConnectionMultiplexer _redis;
         private readonly IDatabase _db;
         public RedisCacheService(
-            IDistributedCache distributeCache, 
+            IDistributedCache distributeCache,
             ILogger<RedisCacheService> logger,
             IConnectionMultiplexer connectionMultiplexer
         )
@@ -92,7 +92,7 @@ namespace Infrastructure.Caching.Redis
             {
                 var server = _redis.GetServer(_redis.GetEndPoints().First());
                 var keys = server.Keys(pattern: pattern);
-                foreach(RedisKey key in keys)
+                foreach (RedisKey key in keys)
                 {
                     await _db.KeyDeleteAsync(key);
                 }
