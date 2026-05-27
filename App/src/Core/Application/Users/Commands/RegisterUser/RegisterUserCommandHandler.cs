@@ -12,19 +12,16 @@ namespace Application.Users.Commands.RegisterUser
     {
         private readonly IUserRepository _userRepository;
         private readonly IJwtTokenGenerator _jwtTokenGenerator;
-        private readonly ICacheService _cacheService;
         private readonly IPasswordHasher<User> _passwordHasher;
 
         public RegisterUserCommandHandler(
             IUserRepository userRepository,
             IJwtTokenGenerator jwtTokenGenerator,
-            ICacheService cacheService,
             IPasswordHasher<User> passwordHasher
         )
         {
             _userRepository = userRepository;
             _jwtTokenGenerator = jwtTokenGenerator;
-            _cacheService = cacheService;
             _passwordHasher = passwordHasher;
         }
 

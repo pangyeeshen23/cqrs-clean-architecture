@@ -27,7 +27,6 @@ namespace Infrastructure
             services.AddScoped<ITagRepository, TagRepository>();
             services.AddScoped<IPostRepository, PostRepository>();
             services.AddScoped<IPostTagRepository, PostTagRepository>();
-            services.AddScoped<ICacheService, RedisCacheService>();
             services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
             services.AddScoped<IPasswordHasher<User>, PasswordHasher>();
             services.AddScoped<ICurrentUserService, CurrentUserService>();
@@ -50,6 +49,7 @@ namespace Infrastructure
             );
             if (!isTestEnv)
             {
+                services.AddScoped<ICacheService, RedisCacheService>();
                 services.AddStackExchangeRedisCache(options =>
                 {
                     options.Configuration = config["Redis:ConnectionString"];
@@ -63,6 +63,10 @@ namespace Infrastructure
                 });
                 services.AddDbContext<MyDbContext>(options =>
                     options.UseSqlServer(config.GetConnectionString("DefaultConnection")));
+            }
+            else
+            {
+                services.AddScoped<ICacheService, RedisCacheService>();
             }
             return services;
         }

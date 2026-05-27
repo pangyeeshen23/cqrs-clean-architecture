@@ -15,17 +15,14 @@ namespace Application.Users.Commands.LoginUser
         private readonly IUserRepository _userRepository;
         private readonly IPasswordHasher<User> _passwordHasher;
         private readonly IJwtTokenGenerator _jwtTokenGenerator;
-        private readonly ICacheService _cacheService;
         public LoginUserCommnadHandler(
             IUserRepository userRepository,
             IPasswordHasher<User> passwordHasher,
-            IJwtTokenGenerator jwtTokenGenerator,
-            ICacheService cacheService
+            IJwtTokenGenerator jwtTokenGenerator
         )
         {
             _userRepository = userRepository;
             _jwtTokenGenerator = jwtTokenGenerator;
-            _cacheService = cacheService;
             _passwordHasher = passwordHasher;
         }
         public async Task<LoginUserResponse> Handle(LoginUserCommand request, CancellationToken cancellationToken)
