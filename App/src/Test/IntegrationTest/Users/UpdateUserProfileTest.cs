@@ -75,5 +75,35 @@ namespace Test.IntegrationTest.Users
                 .Where(ex => ex.Errors.Any(message => message.PropertyName == "FullName"));
         }
 
+
+        [TestMethod]
+        public async Task UpdateUser_Should_Failed_FluentValidationErrorAge()
+        {
+            UserSeeder userSeeder = new UserSeeder(
+               _host!.Thost.Services.GetRequiredService<IUserRepository>(),
+               _host.Thost.Services.GetRequiredService<IPasswordHasher<User>>()
+           );
+            User user = await userSeeder.SeedUser();
+            UpdateUserProfileCommand command = new UpdateUserProfileCommand("Ethan Pang", 101, "60128272851");
+            Func<Task> act = () => _mediator!.Send(command);
+            await act.Should().ThrowAsync<ValidationException>()
+                .Where(ex => ex.Errors.Any(message => message.PropertyName == "Age"));
+        }
+
+
+        [TestMethod]
+        public async Task UpdateUser_Should_Failed_FluentValidationErrorPhineNumber()
+        {
+            UserSeeder userSeeder = new UserSeeder(
+               _host!.Thost.Services.GetRequiredService<IUserRepository>(),
+               _host.Thost.Services.GetRequiredService<IPasswordHasher<User>>()
+           );
+            User user = await userSeeder.SeedUser();
+            UpdateUserProfileCommand command = new UpdateUserProfileCommand("Ethan Pang", 50, "53210128272851321421421");
+            Func<Task> act = () => _mediator!.Send(command);
+            await act.Should().ThrowAsync<ValidationException>()
+                .Where(ex => ex.Errors.Any(message => message.PropertyName == "PhoneNumber"));
+        }
+
     }
 }

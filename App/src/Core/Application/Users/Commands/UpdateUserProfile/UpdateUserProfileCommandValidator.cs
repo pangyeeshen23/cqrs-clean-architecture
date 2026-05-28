@@ -22,9 +22,9 @@ namespace Application.Users.Commands.UpdateUserProfile
                 .LessThanOrEqualTo(100).WithMessage("Age must be less than or equal to 100");
 
             RuleFor(x => x.PhoneNumber)
-                .NotEmpty().WithMessage("Phone number is required")
-                .Matches(@"^\+?(\d{1,3})?[-.\s]?(\(?\d{1,4}\)?[-.\s]?){1,3}\d{1,4}[-.\s]?\d{1,9}$")
-                .WithMessage("Invalid phone number format");
+                 .NotEmpty().WithMessage("Phone number is required")
+                 .Matches(@"^[1-9]\d{7,14}$")
+                 .WithMessage("Invalid phone number format");
 
         }
     }
