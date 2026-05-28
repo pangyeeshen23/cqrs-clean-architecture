@@ -30,7 +30,7 @@ namespace Test.Core
                     services.AddApplication();
                     services.AddInfrastructure(config, true);
                     services.AddDbContext<MyDbContext>(options =>
-                        options.UseInMemoryDatabase("MyDB-"+Guid.NewGuid().ToString()));
+                        options.UseInMemoryDatabase("MyDB-" + Guid.NewGuid().ToString()));
                     var httpContext = new DefaultHttpContext();
                     httpContext.User = new ClaimsPrincipal(
                         new ClaimsIdentity(

@@ -14,7 +14,7 @@ namespace Infrastructure.Caching.Memory
 
         public Task<T?> GetAsync<T>(string key, CancellationToken cancellationToken) where T : class
         {
-            if(_store.TryGetValue(key, out var value))
+            if (_store.TryGetValue(key, out var value))
             {
                 T? convertedVal = JsonSerializer.Deserialize<T>(value!);
                 return Task.FromResult<T?>(convertedVal);
