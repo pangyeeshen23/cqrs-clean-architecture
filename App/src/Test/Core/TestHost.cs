@@ -1,10 +1,13 @@
-﻿using Application;
+﻿using System.Security.Claims;
+using Application;
 using Infrastructure;
 using Infrastructure.Context;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Test.Core.Seeder;
 
 namespace Test.Core
 {
@@ -27,7 +30,21 @@ namespace Test.Core
                     services.AddApplication();
                     services.AddInfrastructure(config, true);
                     services.AddDbContext<MyDbContext>(options =>
-                        options.UseInMemoryDatabase("MyDB"));
+                        options.UseInMemoryDatabase("MyDB-"+Guid.NewGuid().ToString()));
+                    var httpContext = new DefaultHttpContext();
+                    httpContext.User = new ClaimsPrincipal(
+                        new ClaimsIdentity(
+                            [
+                                new Claim(ClaimTypes.NameIdentifier, UserSeeder.Id.ToString()),
+                                new Claim(ClaimTypes.Name, UserSeeder.FullName.ToString()),
+                            ], "TestAuth")
+                        );
+                    services.AddSingleton<IHttpContextAccessor>(
+                        new HttpContextAccessor
+                        {
+                            HttpContext = httpContext
+                        }
+                    );
                 })
                 .Build();
         }

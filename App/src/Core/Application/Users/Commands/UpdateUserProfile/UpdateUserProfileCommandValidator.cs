@@ -14,7 +14,7 @@ namespace Application.Users.Commands.UpdateUserProfile
             RuleFor(x => x.FullName)
                 .NotEmpty().WithMessage("Name is required")
                 .MaximumLength(50).WithMessage("Name must not exceed 50 characters")
-                .Matches(@"^[a-zA-Z]+$").WithMessage("Name must contain only letters");
+                .Matches(@"^[a-zA-Z\s]+$").WithMessage("Name must contain only letters");
 
             RuleFor(x => x.Age)
                 .NotEmpty().WithMessage("Age is required")
