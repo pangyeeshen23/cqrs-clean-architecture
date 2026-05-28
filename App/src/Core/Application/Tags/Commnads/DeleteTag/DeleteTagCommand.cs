@@ -8,6 +8,9 @@ namespace Application.Tags.Commnads.DeleteTag
     public record DeleteTagCommand
     (
         Guid Id
-    ) : IRequest;
+    ) : IRequest<DeleteTagResponse>;
 
+    public record DeleteTagResponse(
+        bool result
+    );
 }

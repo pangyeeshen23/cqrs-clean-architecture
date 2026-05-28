@@ -15,13 +15,11 @@ namespace Test.Core.Seeder
         public static int Age { get; } = 23;
         public static string PhoneNumber { get; } = "60122792350";
 
-
         public UserSeeder(IUserRepository repository, IPasswordHasher<User> passwordHasher)
         {
             _userRepository = repository;
             _passwordHasher = passwordHasher;
         }
-
         public async Task<User> SeedUser(Guid? id = null)
         {
             User user = new User
@@ -41,5 +39,6 @@ namespace Test.Core.Seeder
             await _userRepository.AddAsync(user);
             return user;
         }
+
     }
 }

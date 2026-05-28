@@ -9,5 +9,9 @@ namespace Application.Tags.Commnads.UpdateTag
         Guid Id,
         string Title,
         string Description
-    ) : IRequest;
+    ) : IRequest<UpdateTagResponse>;
+
+    public record UpdateTagResponse(
+        bool result
+    );
 }

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using Application.Common.Interfaces;
 using Application.Common.Redis;
+using Application.Tags.Commnads.CreateTag;
+using Application.Users.Commands.UpdateUserProfile;
 using Domain.Caching;
 using Domain.Entities;
 using Domain.Exceptions;
@@ -12,7 +14,7 @@ using MediatR;
 
 namespace Application.Tags.Commnads.UpdateTag
 {
-    public class UpdateTagCommandHandler : IRequestHandler<UpdateTagCommand>
+    public class UpdateTagCommandHandler : IRequestHandler<UpdateTagCommand, UpdateTagResponse>
     {
         private readonly ITagRepository _tagRepository;
         private readonly ICurrentUserService _currentUserService;
@@ -29,7 +31,7 @@ namespace Application.Tags.Commnads.UpdateTag
             _cacheService = cacheService;
         }
 
-        public async Task Handle(UpdateTagCommand request, CancellationToken cancellationToken)
+        public async Task<UpdateTagResponse> Handle(UpdateTagCommand request, CancellationToken cancellationToken)
         {
             TagFilterModel filter = new TagFilterModel();
             filter.Id = request.Id;
@@ -43,6 +45,7 @@ namespace Application.Tags.Commnads.UpdateTag
             tag.Description = request.Description;
             await _cacheService.RemoveAsync($"{RedisKeys.TagList}", cancellationToken);
             await _tagRepository.UpdateAsync(tag);
+            return new UpdateTagResponse(true);
         }
     }
 }

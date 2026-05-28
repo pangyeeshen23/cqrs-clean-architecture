@@ -1,14 +1,15 @@
-﻿using Application.Users.Queries.GetUserProfile;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using Application.Users.Queries.GetUserProfile;
 using Domain.Entities;
-using Domain.Exceptions;
 using Domain.Repositories;
-using FluentAssertions;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Test.Core.Seeder;
 
-namespace Test.IntegrationTest.Users
+namespace Test.IntegrationTest.Posts
 {
     [TestClass]
     public class GetUserProfileTest : BaseIntegrationTest
@@ -37,14 +38,6 @@ namespace Test.IntegrationTest.Users
             Assert.IsNotEmpty(resp.FullName);
             Assert.IsGreaterThan(0, resp.Age);
             Assert.IsNotEmpty(resp.PhoneNumber);
-        }
-
-        [TestMethod]
-        public async Task GetUser_Should_Failed_UserNotFoundException()
-        {
-            GetUserProfileQuery query = new GetUserProfileQuery(Guid.NewGuid());
-            Func<Task> act = () => _mediator!.Send(query);
-            await act.Should().ThrowAsync<NotFoundException>();
         }
     }
 }

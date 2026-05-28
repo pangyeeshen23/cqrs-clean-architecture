@@ -5,9 +5,9 @@ using FluentValidation;
 
 namespace Application.Tags.Commnads.DeleteTag
 {
-    public class DeleteTagCommnadValidator : AbstractValidator<DeleteTagCommand>
+    public class DeleteTagCommandValidator : AbstractValidator<DeleteTagCommand>
     {
-        public DeleteTagCommnadValidator()
+        public DeleteTagCommandValidator()
         {
             RuleFor(x => x.Id)
                 .NotEmpty().WithMessage("Tag Id is required.")
