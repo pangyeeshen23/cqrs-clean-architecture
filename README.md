@@ -22,14 +22,14 @@ Here is the list of Prerequisition that you need to do before running the Projec
 Step 1 : Clone the project
 
 ```bash
-  git clone https://github.com/pangyeeshen23/webby-test.git
+  git clone https://github.com/pangyeeshen23/cqrs-clean-architecture.git
 ```
 Step 2 : Open the project in IDE
 
 Step 3 : Go to the project directory using the IDE's terminal
 
 ```bash
-  cd webby-test/App
+  cd cqrs-clean-architecture/App
 ```
 
 Step 4 : Update the following file's credentials and rename them to the correct format
@@ -55,14 +55,14 @@ Step 6 : Navigate to http://localhost:8080/swagger to view all endpoints
 Step 1 : Clone the project
 
 ```bash
-  git clone https://github.com/pangyeeshen23/webby-test.git
+  git clone https://github.com/pangyeeshen23/cqrs-clean-architecture.git
 ```
 Step 2 : Open the project in IDE
 
 Step 3 : Go to the project directory using the IDE's terminal
 
 ```bash
-  cd webby-test/App
+  cd cqrs-clean-architecture/App
 ```
 
 Step 4 : Update the following file's credentials and rename them to the correct format
@@ -104,7 +104,7 @@ This section would explain how to add migration.
 Step 1 : Navigate To App
 
 ```bash
-  cd webby-test/App
+  cd cqrs-clean-architecture/App
 ```
 
 Step 2 : Run the command below
@@ -116,7 +116,7 @@ This section would explain how to remove a migration
 
 Step 1 : Navigate To App
 ```bash
-  cd webby-test/App
+  cd cqrs-clean-architecture/App
 ```
 
 Step 2 : Run the command below
