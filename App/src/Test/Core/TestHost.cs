@@ -38,7 +38,7 @@ namespace Test.Core
                     services.AddInfrastructure(config, true);
                     services.AddDbContext<MyDbContext>(options =>
                         options.UseSqlServer(msqlConnectionStr));
-                    
+
                     services.AddScoped<ICacheService, RedisCacheService>();
                     services.AddSingleton<IConnectionMultiplexer>(_ =>
                     {
