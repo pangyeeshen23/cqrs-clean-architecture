@@ -1,7 +1,9 @@
 ﻿using System.Security.Claims;
+using Application.Users.Commands.GenerateUser;
 using Application.Users.Commands.LoginUser;
 using Application.Users.Commands.RegisterUser;
 using Application.Users.Commands.UpdateUserProfile;
+using Application.Users.Queries.GetUserList;
 using Application.Users.Queries.GetUserProfile;
 using Domain.Entities;
 using MediatR;
@@ -20,6 +22,21 @@ namespace Presentation.Controllers.Users
         public UserController(IMediator mediator)
         {
             _mediator = mediator;
+        }
+
+        [HttpGet("list")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> List([FromQuery] GetUserListQuery query)
+        {
+            var response = await _mediator.Send(query);
+            return Ok(new
+            {
+                success = true,
+                message = "Register successful",
+                data = response
+            });
         }
 
         [HttpPost("register")]
@@ -83,6 +100,21 @@ namespace Presentation.Controllers.Users
             {
                 success = true,
                 message = "Profile updated successfully",
+                data = response
+            });
+        }
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        [HttpPost("generate")]
+        public async Task<IActionResult> Generate([FromBody] GenerateUserCommand command)
+        {
+            var response = await _mediator.Send(command);
+            return Ok(new
+            {
+                success = true,
+                message = "User generated successfully",
                 data = response
             });
         }

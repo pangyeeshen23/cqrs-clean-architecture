@@ -8,5 +8,7 @@ namespace Domain.Repositories.Model.UserProfiles
     {
         public Guid? Id { get; set; }
         public Guid? UserId { get; set; }
+
+        public bool UseDapper { get; set; }
     }
 }

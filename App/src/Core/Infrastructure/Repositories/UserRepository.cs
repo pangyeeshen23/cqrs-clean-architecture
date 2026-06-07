@@ -1,8 +1,13 @@
-﻿using Domain.Entities;
+﻿using System.Data;
+using System.Diagnostics;
+using Dapper;
+using Domain.Entities;
 using Domain.Repositories;
 using Domain.Repositories.Model.Users;
 using Infrastructure.Context;
+using Infrastructure.Contexts;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using static System.Net.WebRequestMethods;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
@@ -11,20 +16,29 @@ namespace Infrastructure.Repositories
     public class UserRepository : IUserRepository
     {
         private readonly MyDbContext _dbContext;
-        public UserRepository(MyDbContext dbContext)
+        private readonly DapperContext _dapperContext;
+        private readonly ILogger<UserProfileRepository> _logger;
+
+        public UserRepository(MyDbContext dbContext, DapperContext dapperContext, ILogger<UserProfileRepository> logger)
         {
             _dbContext = dbContext;
+            _dapperContext = dapperContext;
+            _logger = logger;
         }
 
-        public async Task<List<User>> GetAllAsync()
+        public async Task<List<User>> GetAllAsync(UserFilterModel filter)
         {
-            return await _dbContext.Users.ToListAsync();
-        }
-
-
-        public async Task<User?> GetByEmailAsync(string email)
-        {
-            return await _dbContext.Users.FirstOrDefaultAsync(u => u.Email == email);
+            Stopwatch stopwatch = Stopwatch.StartNew();
+            List<User> users = new List<User>();
+            if (filter.UseDapper)
+            {
+                using IDbConnection connection = _dapperContext.CreateConnection();
+                users = (await connection.QueryAsync<User>("SELECT * FROM Users")).ToList();
+            }
+            else users = await _dbContext.Users.ToListAsync();
+            stopwatch.Stop();
+            _logger.LogInformation("GetAsync executed in {ElapsedMilliseconds} ms", stopwatch.ElapsedMilliseconds);
+            return users;
         }
 
         public async Task AddAsync(User user)

@@ -20,10 +20,10 @@ namespace Test.IntegrationTest.Tags
         private IMediator? _mediator;
 
         [TestInitialize]
-        public override void Setup()
+        public override async Task TestSetup()
         {
-            base.Setup();
-            _mediator = _host?.Thost.Services.GetRequiredService<IMediator>();
+            await base.TestSetup();
+            _mediator = _scope!.ServiceProvider.GetRequiredService<IMediator>();
         }
 
         [TestMethod]

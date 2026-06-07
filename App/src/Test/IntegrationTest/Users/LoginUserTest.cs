@@ -8,10 +8,12 @@ using Domain.Exceptions.Users;
 using Domain.Repositories;
 using Domain.Repositories.Model.Users;
 using FluentAssertions;
+using Infrastructure.Context;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
+using Test.Core;
 using Test.Core.Seeder;
 using Test.IntegrationTest;
 
@@ -22,11 +24,12 @@ namespace Test.IntegrationTest.Users
     {
         private IMediator? _mediator;
 
+
         [TestInitialize]
-        public override void Setup()
+        public override async Task TestSetup()
         {
-            base.Setup();
-            _mediator = _host?.Thost.Services.GetRequiredService<IMediator>();
+            await base.TestSetup();
+            _mediator = _scope?.ServiceProvider.GetRequiredService<IMediator>();
         }
 
 
@@ -34,8 +37,8 @@ namespace Test.IntegrationTest.Users
         public async Task UserLogin_Should_Success()
         {
             UserSeeder userSeeder = new UserSeeder(
-                _host!.Thost.Services.GetRequiredService<IUserRepository>(),
-                _host.Thost.Services.GetRequiredService<IPasswordHasher<User>>()
+                _scope!.ServiceProvider.GetRequiredService<IUserRepository>(),
+                _scope!.ServiceProvider.GetRequiredService<IPasswordHasher<User>>()
             );
             await userSeeder.SeedUser();
             LoginUserCommand command = new LoginUserCommand("ethanpang", "!root123Qwe123");
@@ -55,8 +58,8 @@ namespace Test.IntegrationTest.Users
         public async Task UserLogin_Should_Failed_InvalidCredentialException()
         {
             UserSeeder userSeeder = new UserSeeder(
-                _host!.Thost.Services.GetRequiredService<IUserRepository>(),
-                _host.Thost.Services.GetRequiredService<IPasswordHasher<User>>()
+                _scope!.ServiceProvider.GetRequiredService<IUserRepository>(),
+                _scope!.ServiceProvider.GetRequiredService<IPasswordHasher<User>>()
             );
             await userSeeder.SeedUser();
             LoginUserCommand command = new LoginUserCommand("ethanpang", "!root123Qwe12345");

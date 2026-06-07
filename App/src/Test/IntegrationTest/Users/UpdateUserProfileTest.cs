@@ -24,18 +24,18 @@ namespace Test.IntegrationTest.Users
         private IMediator? _mediator;
 
         [TestInitialize]
-        public override void Setup()
+        public override async Task TestSetup()
         {
-            base.Setup();
-            _mediator = _host?.Thost.Services.GetRequiredService<IMediator>();
+            await base.TestSetup();
+            _mediator = _scope!.ServiceProvider.GetRequiredService<IMediator>();
         }
 
         [TestMethod]
         public async Task UpdateUser_Should_Success()
         {
             UserSeeder userSeeder = new UserSeeder(
-                _host!.Thost.Services.GetRequiredService<IUserRepository>(),
-                _host.Thost.Services.GetRequiredService<IPasswordHasher<User>>()
+                _scope!.ServiceProvider.GetRequiredService<IUserRepository>(),
+                _scope!.ServiceProvider.GetRequiredService<IPasswordHasher<User>>()
             );
             User user = await userSeeder.SeedUser();
             UpdateUserProfileCommand command = new UpdateUserProfileCommand("Ethan Pang", 50, "60128272851");
@@ -52,8 +52,8 @@ namespace Test.IntegrationTest.Users
         public async Task UpdateUser_Should_Fail_UserNotFoundException()
         {
             UserSeeder userSeeder = new UserSeeder(
-                _host!.Thost.Services.GetRequiredService<IUserRepository>(),
-                _host.Thost.Services.GetRequiredService<IPasswordHasher<User>>()
+                _scope!.ServiceProvider.GetRequiredService<IUserRepository>(),
+                _scope!.ServiceProvider.GetRequiredService<IPasswordHasher<User>>()
             );
             User user = await userSeeder.SeedUser(Guid.NewGuid());
             UpdateUserProfileCommand command = new UpdateUserProfileCommand("ethanDemo", 50, "60128272851");
@@ -65,8 +65,8 @@ namespace Test.IntegrationTest.Users
         public async Task UpdateUser_Should_Failed_FluentValidationErrorFullName()
         {
             UserSeeder userSeeder = new UserSeeder(
-               _host!.Thost.Services.GetRequiredService<IUserRepository>(),
-               _host.Thost.Services.GetRequiredService<IPasswordHasher<User>>()
+               _scope!.ServiceProvider.GetRequiredService<IUserRepository>(),
+               _scope!.ServiceProvider.GetRequiredService<IPasswordHasher<User>>()
            );
             User user = await userSeeder.SeedUser();
             UpdateUserProfileCommand command = new UpdateUserProfileCommand("ethan 123", 50, "60128272851");
@@ -80,8 +80,8 @@ namespace Test.IntegrationTest.Users
         public async Task UpdateUser_Should_Failed_FluentValidationErrorAge()
         {
             UserSeeder userSeeder = new UserSeeder(
-               _host!.Thost.Services.GetRequiredService<IUserRepository>(),
-               _host.Thost.Services.GetRequiredService<IPasswordHasher<User>>()
+               _scope!.ServiceProvider.GetRequiredService<IUserRepository>(),
+               _scope!.ServiceProvider.GetRequiredService<IPasswordHasher<User>>()
            );
             User user = await userSeeder.SeedUser();
             UpdateUserProfileCommand command = new UpdateUserProfileCommand("Ethan Pang", 101, "60128272851");
@@ -95,8 +95,8 @@ namespace Test.IntegrationTest.Users
         public async Task UpdateUser_Should_Failed_FluentValidationErrorPhineNumber()
         {
             UserSeeder userSeeder = new UserSeeder(
-               _host!.Thost.Services.GetRequiredService<IUserRepository>(),
-               _host.Thost.Services.GetRequiredService<IPasswordHasher<User>>()
+               _scope!.ServiceProvider.GetRequiredService<IUserRepository>(),
+               _scope!.ServiceProvider.GetRequiredService<IPasswordHasher<User>>()
            );
             User user = await userSeeder.SeedUser();
             UpdateUserProfileCommand command = new UpdateUserProfileCommand("Ethan Pang", 50, "53210128272851321421421");

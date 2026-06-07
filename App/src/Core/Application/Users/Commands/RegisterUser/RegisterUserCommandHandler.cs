@@ -36,7 +36,7 @@ namespace Application.Users.Commands.RegisterUser
                 IsActive = true,
                 Profile = new UserProfile
                 {
-                    FullName = request.Username,
+                    FullName = request.FullName,
                     Age = request.Age,
                     PhoneNumber = request.PhoneNumber
                 }

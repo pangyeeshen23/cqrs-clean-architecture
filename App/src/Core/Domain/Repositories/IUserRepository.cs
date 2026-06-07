@@ -10,7 +10,7 @@ namespace Domain.Repositories
 {
     public interface IUserRepository
     {
-        Task<List<User>> GetAllAsync();
+        Task<List<User>> GetAllAsync(UserFilterModel filter);
         Task<User?> GetByAsync(string username, string email);
         Task<User?> GetByAsync(UserFilterModel filter);
         Task AddAsync(User user);

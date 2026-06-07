@@ -10,6 +10,7 @@ using Domain.Repositories;
 using FluentAssertions;
 using FluentValidation;
 using MediatR;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Test.Core.Seeder;
 
@@ -21,17 +22,22 @@ namespace Test.IntegrationTest.Tags
         private IMediator? _mediator;
 
         [TestInitialize]
-        public override void Setup()
+        public override async Task TestSetup()
         {
-            base.Setup();
-            _mediator = _host?.Thost.Services.GetRequiredService<IMediator>();
+            await base.TestSetup();
+            _mediator = _scope!.ServiceProvider.GetRequiredService<IMediator>();
         }
 
         [TestMethod]
         public async Task UpdateTag_Should_Success()
         {
+            UserSeeder userSeeder = new UserSeeder(
+               _scope!.ServiceProvider.GetRequiredService<IUserRepository>(),
+               _scope!.ServiceProvider.GetRequiredService<IPasswordHasher<User>>()
+            );
+            User user = await userSeeder.SeedUser();
             TagSeeder tagSeeder = new TagSeeder(
-               _host!.Thost.Services.GetRequiredService<ITagRepository>()
+               _scope!.ServiceProvider.GetRequiredService<ITagRepository>()
             );
             Tag tag = await tagSeeder.SeedTag();
             UpdateTagCommand commnad = new UpdateTagCommand(tag.Id, "Kids", "This tag is for a kid tagging");
@@ -51,7 +57,7 @@ namespace Test.IntegrationTest.Tags
         public async Task UpdateTag_Should_Fail_FluentValidationId()
         {
             TagSeeder tagSeeder = new TagSeeder(
-               _host!.Thost.Services.GetRequiredService<ITagRepository>()
+               _scope!.ServiceProvider.GetRequiredService<ITagRepository>()
             );
             Tag tag = await tagSeeder.SeedTag();
             UpdateTagCommand commnad = new UpdateTagCommand(Guid.Empty, "Funny", "This tag is for a kid tagging");
@@ -64,7 +70,7 @@ namespace Test.IntegrationTest.Tags
         public async Task UpdateTag_Should_Fail_FluentValidationTitle()
         {
             TagSeeder tagSeeder = new TagSeeder(
-               _host!.Thost.Services.GetRequiredService<ITagRepository>()
+               _scope!.ServiceProvider.GetRequiredService<ITagRepository>()
             );
             Tag tag = await tagSeeder.SeedTag();
             UpdateTagCommand commnad = new UpdateTagCommand(tag.Id, "Funny Money HAAHAHAHAAHAHAHAHAH", "This tag is for a kid tagging");

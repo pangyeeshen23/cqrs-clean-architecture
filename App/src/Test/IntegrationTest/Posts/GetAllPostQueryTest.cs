@@ -17,18 +17,18 @@ namespace Test.IntegrationTest.Posts
         private IMediator? _mediator;
 
         [TestInitialize]
-        public override void Setup()
+        public override async Task TestSetup()
         {
-            base.Setup();
-            _mediator = _host?.Thost.Services.GetRequiredService<IMediator>();
+            await base.TestSetup();
+            _mediator = _scope!.ServiceProvider.GetRequiredService<IMediator>();
         }
 
         [TestMethod]
         public async Task GetUser_Should_Success()
         {
             UserSeeder userSeeder = new UserSeeder(
-                _host!.Thost.Services.GetRequiredService<IUserRepository>(),
-                _host.Thost.Services.GetRequiredService<IPasswordHasher<User>>()
+                _scope!.ServiceProvider.GetRequiredService<IUserRepository>(),
+                _scope!.ServiceProvider.GetRequiredService<IPasswordHasher<User>>()
             );
             User user = await userSeeder.SeedUser();
             GetUserProfileQuery query = new GetUserProfileQuery(user.Id);

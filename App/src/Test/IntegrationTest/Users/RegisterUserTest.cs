@@ -2,10 +2,14 @@
 using System.Collections.Generic;
 using System.Text;
 using Application.Users.Commands.RegisterUser;
+using Domain.Entities;
 using Domain.Exceptions;
 using Domain.Exceptions.Users;
+using Domain.Repositories;
+using Domain.Repositories.Model.Users;
 using FluentAssertions;
 using FluentValidation;
+using Infrastructure.Repositories;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Test.Core.Seeder;
@@ -17,12 +21,14 @@ namespace Test.IntegrationTest.Users
     public class RegisterUserTest : BaseIntegrationTest
     {
         private IMediator? _mediator;
+        private IUserRepository? _userRepository;
 
         [TestInitialize]
-        public override void Setup()
+        public override async Task TestSetup()
         {
-            base.Setup();
-            _mediator = _host?.Thost.Services.GetRequiredService<IMediator>();
+            await base.TestSetup();
+            _mediator = _scope!.ServiceProvider.GetRequiredService<IMediator>();
+            _userRepository = _scope!.ServiceProvider.GetRequiredService<IUserRepository>();
         }
 
         [TestMethod]
@@ -30,7 +36,17 @@ namespace Test.IntegrationTest.Users
         {
             RegisterUserCommand command = new RegisterUserCommand("ethanPang", "ethanPang@gamil.com", "Pang Yee Shen", "!root123Qwe123", "!root123Qwe123", 23, "60122792350");
             RegisterUserResponse resp = await _mediator!.Send(command);
+            UserFilterModel filter = new UserFilterModel();
+            filter.Username = "ethanPang";
+            filter.IsIncludeUserProfile = true;
+            User? user = await _userRepository!.GetByAsync(filter);
             Assert.IsNotEmpty(resp.Token);
+            Assert.IsNotNull(user);
+            Assert.AreEqual("ethanPang", user.Username);
+            Assert.AreEqual("ethanPang@gamil.com", user.Email);
+            Assert.AreEqual("Pang Yee Shen", user.Profile.FullName);
+            Assert.AreEqual(23, user.Profile.Age);
+            Assert.AreEqual("60122792350", user.Profile.PhoneNumber);
         }
 
         [TestMethod]

@@ -9,7 +9,7 @@ namespace Domain.Repositories.Model.Users
         public Guid? Id { get; set; }
         public string? Username { get; set; }
         public string? Email { get; set; }
-
         public bool IsIncludeUserProfile { get; set; }
+        public bool UseDapper { get; set; }
     }
 }

@@ -23,18 +23,18 @@ namespace Test.IntegrationTest.Tags
         private ITagRepository? _tagRepository;
 
         [TestInitialize]
-        public override void Setup()
+        public override async Task TestSetup()
         {
-            base.Setup();
-            _mediator = _host?.Thost.Services.GetRequiredService<IMediator>();
-            _tagRepository = _host?.Thost.Services.GetRequiredService<ITagRepository>();
+            await base.TestSetup();
+            _mediator = _scope!.ServiceProvider.GetRequiredService<IMediator>();
+            _tagRepository = _scope!.ServiceProvider.GetRequiredService<ITagRepository>();
         }
 
         [TestMethod]
         public async Task DeleteTag_Should_Success()
         {
             TagSeeder tagSeeder = new TagSeeder(
-               _host!.Thost.Services.GetRequiredService<ITagRepository>()
+               _scope!.ServiceProvider.GetRequiredService<ITagRepository>()
             );
             Tag tag = await tagSeeder.SeedTag();
             DeleteTagCommand commnad = new DeleteTagCommand(tag.Id);
@@ -50,7 +50,7 @@ namespace Test.IntegrationTest.Tags
         public async Task DeleteTag_Should_Fail_NotFoundException()
         {
             TagSeeder tagSeeder = new TagSeeder(
-               _host!.Thost.Services.GetRequiredService<ITagRepository>()
+               _scope!.ServiceProvider.GetRequiredService<ITagRepository>()
             );
             Tag tag = await tagSeeder.SeedTag();
             DeleteTagCommand command = new DeleteTagCommand(Guid.NewGuid());
