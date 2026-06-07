@@ -26,7 +26,7 @@ namespace Test.Core
 
         public async Task<IHost> Init(string msqlConnectionStr, string redisConnectionStr)
         {
-           
+
 
             return Host.CreateDefaultBuilder()
                 .ConfigureAppConfiguration((context, config) =>
