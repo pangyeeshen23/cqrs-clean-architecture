@@ -39,7 +39,7 @@ namespace Test.IntegrationTest.Tags
             TagSeeder tagSeeder = new TagSeeder(
                _scope!.ServiceProvider.GetRequiredService<ITagRepository>()
             );
-            Tag tag = await tagSeeder.SeedTag();
+            Tag tag = await tagSeeder.SeedTag(user.Id);
             UpdateTagCommand commnad = new UpdateTagCommand(tag.Id, "Kids", "This tag is for a kid tagging");
             await _mediator!.Send(commnad);
         }
@@ -56,10 +56,15 @@ namespace Test.IntegrationTest.Tags
         [TestMethod]
         public async Task UpdateTag_Should_Fail_FluentValidationId()
         {
+            UserSeeder userSeeder = new UserSeeder(
+              _scope!.ServiceProvider.GetRequiredService<IUserRepository>(),
+              _scope!.ServiceProvider.GetRequiredService<IPasswordHasher<User>>()
+            );
+            User user = await userSeeder.SeedUser();
             TagSeeder tagSeeder = new TagSeeder(
                _scope!.ServiceProvider.GetRequiredService<ITagRepository>()
             );
-            Tag tag = await tagSeeder.SeedTag();
+            Tag tag = await tagSeeder.SeedTag(user.Id);
             UpdateTagCommand commnad = new UpdateTagCommand(Guid.Empty, "Funny", "This tag is for a kid tagging");
             Func<Task> act = () => _mediator!.Send(commnad);
             await act.Should().ThrowAsync<ValidationException>()
@@ -69,10 +74,15 @@ namespace Test.IntegrationTest.Tags
         [TestMethod]
         public async Task UpdateTag_Should_Fail_FluentValidationTitle()
         {
+            UserSeeder userSeeder = new UserSeeder(
+              _scope!.ServiceProvider.GetRequiredService<IUserRepository>(),
+              _scope!.ServiceProvider.GetRequiredService<IPasswordHasher<User>>()
+            );
+            User user = await userSeeder.SeedUser();
             TagSeeder tagSeeder = new TagSeeder(
                _scope!.ServiceProvider.GetRequiredService<ITagRepository>()
             );
-            Tag tag = await tagSeeder.SeedTag();
+            Tag tag = await tagSeeder.SeedTag(user.Id);
             UpdateTagCommand commnad = new UpdateTagCommand(tag.Id, "Funny Money HAAHAHAHAAHAHAHAHAH", "This tag is for a kid tagging");
             Func<Task> act = () => _mediator!.Send(commnad);
             await act.Should().ThrowAsync<ValidationException>()

@@ -4,6 +4,7 @@ using System.Text;
 using Application.Tags.Commnads.CreateTag;
 using Application.Tags.Queries.GetAllTags;
 using Application.Users.Queries.GetUserProfile;
+using Domain.Entities;
 using Domain.Repositories;
 using FluentAssertions;
 using FluentValidation;
@@ -29,6 +30,11 @@ namespace Test.IntegrationTest.Tags
         [TestMethod]
         public async Task CreateTag_Should_Success()
         {
+            UserSeeder userSeeder = new UserSeeder(
+               _scope!.ServiceProvider.GetRequiredService<IUserRepository>(),
+               _scope!.ServiceProvider.GetRequiredService<IPasswordHasher<User>>()
+            );
+            User user = await userSeeder.SeedUser();
             CreateTagCommand command = new CreateTagCommand("Funny", "This is to descript the book as a funny material");
             CreateTagResponse resp = await _mediator!.Send(command);
             Assert.AreNotEqual(resp.Id, Guid.Empty);

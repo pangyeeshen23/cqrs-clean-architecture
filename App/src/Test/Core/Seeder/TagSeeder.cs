@@ -18,13 +18,14 @@ namespace Test.Core.Seeder
             _tagRepository = repository;
         }
 
-        public async Task<Tag> SeedTag()
+        public async Task<Tag> SeedTag(Guid userId)
         {
             Tag tag = new Tag
             {
                 Title = "Adventure",
                 Description = "This tag descript the book is an adventure book",
-                Slug = "adventure"
+                Slug = "adventure",
+                OwnerId = userId
             };
             await _tagRepository.CreateAsync(tag);
             return tag;

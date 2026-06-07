@@ -10,6 +10,7 @@ using Domain.Repositories.Model.Tags;
 using FluentAssertions;
 using FluentValidation;
 using MediatR;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Test.Core.Seeder;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
@@ -33,10 +34,15 @@ namespace Test.IntegrationTest.Tags
         [TestMethod]
         public async Task DeleteTag_Should_Success()
         {
+            UserSeeder userSeeder = new UserSeeder(
+              _scope!.ServiceProvider.GetRequiredService<IUserRepository>(),
+              _scope!.ServiceProvider.GetRequiredService<IPasswordHasher<User>>()
+            );
+            User user = await userSeeder.SeedUser();
             TagSeeder tagSeeder = new TagSeeder(
                _scope!.ServiceProvider.GetRequiredService<ITagRepository>()
             );
-            Tag tag = await tagSeeder.SeedTag();
+            Tag tag = await tagSeeder.SeedTag(user.Id);
             DeleteTagCommand commnad = new DeleteTagCommand(tag.Id);
             await _mediator!.Send(commnad);
             TagFilterModel filter = new TagFilterModel();
@@ -49,10 +55,15 @@ namespace Test.IntegrationTest.Tags
         [TestMethod]
         public async Task DeleteTag_Should_Fail_NotFoundException()
         {
+            UserSeeder userSeeder = new UserSeeder(
+              _scope!.ServiceProvider.GetRequiredService<IUserRepository>(),
+              _scope!.ServiceProvider.GetRequiredService<IPasswordHasher<User>>()
+            );
+            User user = await userSeeder.SeedUser();
             TagSeeder tagSeeder = new TagSeeder(
                _scope!.ServiceProvider.GetRequiredService<ITagRepository>()
             );
-            Tag tag = await tagSeeder.SeedTag();
+            Tag tag = await tagSeeder.SeedTag(user.Id);
             DeleteTagCommand command = new DeleteTagCommand(Guid.NewGuid());
             Func<Task> act = () => _mediator!.Send(command);
             await act.Should().ThrowAsync<NotFoundException>();
