@@ -5,19 +5,14 @@ using Domain.Caching;
 using Infrastructure;
 using Infrastructure.Caching.Redis;
 using Infrastructure.Context;
-using Infrastructure.Contexts;
+using Infrastructure.Contexts.Dapper;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Data.SqlClient;
-using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using StackExchange.Redis;
 using Test.Core.Seeder;
-using Testcontainers.MsSql;
-using Testcontainers.Redis;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace Test.Core
 {
@@ -43,6 +38,7 @@ namespace Test.Core
                     services.AddInfrastructure(config, true);
                     services.AddDbContext<MyDbContext>(options =>
                         options.UseSqlServer(msqlConnectionStr));
+                    
                     services.AddScoped<ICacheService, RedisCacheService>();
                     services.AddSingleton<IConnectionMultiplexer>(_ =>
                     {
@@ -50,6 +46,10 @@ namespace Test.Core
                         options.AbortOnConnectFail = false;
                         options.ConnectRetry = 3;
                         return ConnectionMultiplexer.Connect(options);
+                    });
+                    services.Configure<DapperSetting>(options =>
+                    {
+                        options.ConnectionString = msqlConnectionStr;
                     });
                     services.AddSingleton<DapperContext>();
                     services.AddSingleton<IHttpContextAccessor>(_ =>

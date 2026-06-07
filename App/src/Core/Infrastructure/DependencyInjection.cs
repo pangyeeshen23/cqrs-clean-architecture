@@ -7,7 +7,7 @@ using Infrastructure.Authentication;
 using Infrastructure.Caching.Memory;
 using Infrastructure.Caching.Redis;
 using Infrastructure.Context;
-using Infrastructure.Contexts;
+using Infrastructure.Contexts.Dapper;
 using Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -61,6 +61,10 @@ namespace Infrastructure
                 });
                 services.AddDbContext<MyDbContext>(options =>
                     options.UseSqlServer(config.GetConnectionString("DefaultConnection")));
+                services.Configure<DapperSetting>(options =>
+                {
+                    options.ConnectionString = config.GetConnectionString("DefaultConnection")!;
+                });
                 services.AddSingleton<DapperContext>();
             }
             return services;

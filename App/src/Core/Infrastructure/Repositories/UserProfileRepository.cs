@@ -7,7 +7,7 @@ using Domain.Entities;
 using Domain.Repositories;
 using Domain.Repositories.Model.UserProfiles;
 using Infrastructure.Context;
-using Infrastructure.Contexts;
+using Infrastructure.Contexts.Dapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
